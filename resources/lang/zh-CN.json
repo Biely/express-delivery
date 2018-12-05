@@ -1,0 +1,17 @@
+{
+  "Logout" : "退出",
+  "Register" : "注册",
+  "Confirm Password" : "确认密码",
+  "Login" : "登录",
+  "Remember Me" : "记住我",
+  "Forgot Your Password?" : "忘记密码？",
+  "Reset Password" : "重置密码",
+  "Send Password Reset Link" : "发送密码重置链接",
+  "Password" : "密码",
+  "Name" : "用户名",
+  "Verify Your Email Address" : "验证您的邮箱地址",
+  "A fresh verification link has been sent to your email address." : "已发送新的验证地址至您的邮箱。",
+  "If you did not receive the email" : "没有收到邮件？",
+  "E-Mail Address" : "邮箱",
+  "eid" : "快递单号"
+}
