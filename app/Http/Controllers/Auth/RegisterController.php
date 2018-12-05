@@ -55,6 +55,7 @@ class RegisterController extends Controller
             'store' => ['required', 'string', 'max:255'],
             'etype' => ['required', 'string', 'max:255'],
             'qq' => ['required', 'string', 'max:255'],
+            'tel' => ['required', 'numeric', 'max:20'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
@@ -75,6 +76,7 @@ class RegisterController extends Controller
             'etype' => $data['etype'],
             'store' => $data['store'],
             'qq' => $data['qq'],
+            'tel' => $data['tel'],
             'password' => Hash::make($data['password']),
         ]);
     }

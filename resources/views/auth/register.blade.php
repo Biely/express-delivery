@@ -54,6 +54,20 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="tel" class="col-md-4 col-form-label text-md-right">{{ __('手机号') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="tel" type="text" class="form-control{{ $errors->has('tel') ? ' is-invalid' : '' }}" name="tel" value="{{ old('tel') }}" required>
+
+                                @if ($errors->has('tel'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('tel') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="store" class="col-md-4 col-form-label text-md-right">{{ __('快递网点') }}</label>
 
                             <div class="col-md-6">

@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('store')->comment('网点名称');
             $table->string('etype')->comment('快递商家');
             $table->string('qq')->comment('qq');
+            $table->string('tel')->comment('手机号');
             $table->integer('uptasks')->comment('投诉次数')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
