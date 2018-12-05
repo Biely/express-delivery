@@ -29,21 +29,30 @@ export default {
   },
   methods: {
     submitForm() {
-      let that = this
-      axios.post(that.rurl, {
+      const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+        setTimeout(() => {
+          loading.close();
+        }, 2000);
+      axios.get(String(this.rurl), {
           params: {
-            score: that.score
+            score: this.score
           }
         }).then((res) => {
           if(res.data.status === 'success') {
-            that.dialogFormVisible = false
-            that.$message({
+            this.dialogFormVisible = false
+            this.$message({
               message: '评价成功！',
               type: 'success'
             })
+            location.reload()
           }else{
-            that.dialogFormVisible = false
-            that.$message({
+            this.dialogFormVisible = false
+            this.$message({
               message: '评价失败！',
               type: 'warning'
             })
@@ -51,28 +60,33 @@ export default {
         })
      },
      moretask(){
-       let that = this
-       axios.post(that.turl, {
+       const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+        setTimeout(() => {
+          loading.close();
+        }, 2000);
+       axios.post(String(this.turl), {
            params: {
            }
          }).then((res) => {
            if(res.data.status === 'success') {
-             that.$message({
+             this.$message({
                message: '投诉成功！',
                type: 'success'
              })
              location.reload()
            }else{
-             that.$message({
+             this.$message({
                message: '投诉失败！',
                type: 'warning'
              })
            }
          })
      }
-  },
-  mounted() {
-    console.log(this.rurl)
   }
 }
 </script>

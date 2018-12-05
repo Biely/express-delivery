@@ -7,6 +7,7 @@ use App\Models\Qtype;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
+use Log;
 
 class SubTaskController extends Controller
 {
@@ -35,8 +36,10 @@ class SubTaskController extends Controller
      */
     public function create()
     {
+      $user = Auth::user();
         $qtypes = collect(getQtypes());
-        return view('task.create',compact('qtypes'));
+        $count = taskcount($user->uuid);
+        return view('task.create',compact('qtypes','count'));
     }
 
     /**
@@ -83,11 +86,13 @@ class SubTaskController extends Controller
     public function show($id)
     {
         //
+        $user = Auth::user();
         $task = Task::findOrFail($id);
         $comments = $task->comments()->orderBy('created_at','desc')->paginate(5);
         $action = 'detil';
+        $count = taskcount($user->uuid);
         //dump($isok);
-        return view('taskdetil',compact('task','action','comments'));
+        return view('taskdetil',compact('task','action','comments','count'));
     }
 
     /**
@@ -98,10 +103,12 @@ class SubTaskController extends Controller
      */
     public function edit($id)
     {
+      $user = Auth::user();
       $task = Task::findOrFail($id);
       $action = 'edit';
       $qtypes = collect(getQtypes());
-      return view('taskdetil',compact('task','action','qtypes'));
+      $count = taskcount($user->uuid);
+      return view('taskdetil',compact('task','action','qtypes','count'));
     }
 
     protected function detail($id){
@@ -150,6 +157,7 @@ class SubTaskController extends Controller
     public function score(Request $request, Task $task,$id){
       $task=$task->findOrFail($id);
       $data = $request->all();
+      Log::info($data);
       $task->score = $data['score'];
       if($task->save()){
         return ['status' => 'success'];

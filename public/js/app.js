@@ -104354,21 +104354,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     submitForm: function submitForm() {
-      var that = this;
-      axios.post(that.rurl, {
+      var _this = this;
+
+      var loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      setTimeout(function () {
+        loading.close();
+      }, 2000);
+      axios.get(String(this.rurl), {
         params: {
-          score: that.score
+          score: this.score
         }
       }).then(function (res) {
         if (res.data.status === 'success') {
-          that.dialogFormVisible = false;
-          that.$message({
+          _this.dialogFormVisible = false;
+          _this.$message({
             message: '评价成功！',
             type: 'success'
           });
+          location.reload();
         } else {
-          that.dialogFormVisible = false;
-          that.$message({
+          _this.dialogFormVisible = false;
+          _this.$message({
             message: '评价失败！',
             type: 'warning'
           });
@@ -104376,27 +104387,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     moretask: function moretask() {
-      var that = this;
-      axios.post(that.turl, {
+      var _this2 = this;
+
+      var loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      setTimeout(function () {
+        loading.close();
+      }, 2000);
+      axios.post(String(this.turl), {
         params: {}
       }).then(function (res) {
         if (res.data.status === 'success') {
-          that.$message({
+          _this2.$message({
             message: '投诉成功！',
             type: 'success'
           });
           location.reload();
         } else {
-          that.$message({
+          _this2.$message({
             message: '投诉失败！',
             type: 'warning'
           });
         }
       });
     }
-  },
-  mounted: function mounted() {
-    console.log(this.rurl);
   }
 });
 
@@ -104608,7 +104626,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   mounted: function mounted() {
     console.log(this.task);
-    var time = new Date().getTime();
+    var time = new Date().getTime().toString().substr(0, 10);
     this.stepone.title = "提交工单";
     this.stepone.time = this.task.created_at;
     this.steptwo.title = "待处理";
@@ -104636,6 +104654,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     } else if (this.task.deadline < time) {
       this.stepthree.title = "已超时";
+      console.log(time);
+      console.log(this.task.deadline);
     }
   }
 });

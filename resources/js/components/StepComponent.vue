@@ -30,7 +30,7 @@
     },
     mounted() {
       console.log(this.task)
-      let time = new Date().getTime()
+      var time = new Date().getTime().toString().substr(0,10)
       this.stepone.title = "提交工单"
       this.stepone.time = this.task.created_at
       this.steptwo.title = "待处理"
@@ -58,6 +58,8 @@
         }
       }else if(this.task.deadline < time) {
         this.stepthree.title = "已超时"
+        console.log(time)
+        console.log(this.task.deadline)
       }
     }
   }

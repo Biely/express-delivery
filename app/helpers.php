@@ -112,3 +112,12 @@ function taskstatus($time,$isok){
 }
 
 //获取当前时
+function taskcount($user_uuid){
+  $tasks = app()->make('App\Models\Task');
+  $tasks = $tasks->where('user_uuid',$user_uuid)->get();
+  $data['0'] = $tasks->where('isok','0')->count();
+  $data['1'] = $tasks->where('isok','1')->count();
+  $data['2'] = $tasks->where('isok','>','1')->count();
+  $data['all'] = $tasks->count();
+  return $data;
+}

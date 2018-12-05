@@ -26,5 +26,5 @@ Route::resource('person', 'PersonController');
 Route::post('person/{person}','PersonController@update');
 Route::post('subtask/{subtask}','SubTaskController@update');
 Route::post('comment','CommentController@store')->name('comment.store');
-Route::post('score/{taskid}','SubTaskController@score')->name('score');
+Route::get('score/{taskid}','SubTaskController@score')->name('score');
 Route::post('moretask/{taskid}','SubTaskController@moretask')->name('moretask');

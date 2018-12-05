@@ -29,8 +29,8 @@ class HomeController extends Controller
         $user = Auth::user();
         $tasks = Task::where('user_uuid',$user->uuid)->paginate(10);
         //dump($tasks);
-        $count = $this->taskcount();
-        $this->isshangban();
+        $count = taskcount($user->uuid);
+        $this->isshangban($request);
         return view('home',compact('user','tasks','count'));
     }
 
@@ -38,8 +38,8 @@ class HomeController extends Controller
       $user = Auth::user();
       $tasks = Task::where('user_uuid',$user->uuid)->where('isok','0')->paginate(10);
       $s = '待处理';
-      $this->isshangban();
-      $count = $this->taskcount();
+      $this->isshangban($request);
+      $count = taskcount($user->uuid);
       return view('home',compact('user','tasks','s','count'));
     }
 
@@ -47,8 +47,8 @@ class HomeController extends Controller
       $user = Auth::user();
       $tasks = Task::where('user_uuid',$user->uuid)->where('isok','1')->paginate(10);
       $s = '已接单';
-      $this->isshangban();
-      $isok = $this->taskcount();
+      $this->isshangban($request);
+      $count = taskcount($user->uuid);
       return view('home',compact('user','tasks','s','count'));
     }
 
@@ -56,15 +56,14 @@ class HomeController extends Controller
       $user = Auth::user();
       $tasks = Task::where('user_uuid',$user->uuid)->where('isok','>','1')->paginate(10);
       $s = '已完结';
-      $this->isshangban();
-      $isok = $this->taskcount();
+      $this->isshangban($request);
+      $count = taskcount($user->uuid);
       return view('home',compact('user','tasks','s','count'));
     }
 
-    public function isshangban(){
+    public function isshangban($request){
       $hour = date('H',time());
       $inthour = (int)$hour;
-      $request = new Request;
       if($inthour<=8||$inthour>=18){
         $request->session()->flash('status', '客服上班时间：8:10-18:00，下班时间工单无法及时处理，敬请谅解!');
       }

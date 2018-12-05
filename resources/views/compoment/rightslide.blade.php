@@ -8,6 +8,10 @@
         <img src="{{ gravatar(Auth::user()->email, '100') }}" class="rounded-circle" alt="Cinque Terre">
       </div> -->
       <ul class="list-group list-group-flush">
+        <a href="{{ route('home') }}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+          全部工单
+          <span class="badge badge-danger badge-pill">{{ isset($count['all']) ? $count['all'] : "" }}</span>
+        </a>
         <a href="{{ route('waitodo') }}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
           待处理
           <span class="badge badge-danger badge-pill">{{ isset($count[0]) ? $count[0] : "" }}</span>

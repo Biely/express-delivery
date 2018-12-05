@@ -22,9 +22,10 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav class="navbar navbar-expand-md  navbar-dark bg-dark fixed-top navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/home') }}">
+                  <img src="{{ asset('images/logo.png') }}" width="auto" height="30"  alt="">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -79,9 +80,15 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 mt-5">
             @yield('content')
         </main>
+        <footer class="footer">
+          <div class="container text-center">
+            <span class="text-muted"><small>Copyright &copy; 2018亳州市优能信息科技有限公司.<a href="http://www.miibeian.gov.cn/" target="_blank">皖ICP备18008843号-2</a>
+            </small></span>
+          </div>
+    </footer>
     </div>
 </body>
 @yield('js')
