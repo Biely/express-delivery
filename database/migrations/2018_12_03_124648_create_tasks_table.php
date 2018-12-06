@@ -20,7 +20,7 @@ class CreateTasksTable extends Migration
             $table->string('etype')->comment('快递类型');
             $table->uuid('user_uuid')->comment('用户id');
             $table->string('uname')->comment('用户姓名');
-            $table->string('qq')->comment('联系方式');
+            $table->string('qq')->comment('QQ');
             $table->integer('qtype')->comment('问题类型');
             $table->integer('times')->comment('投诉次数')->default(1);
             $table->text('content')->comment('问题描述');
