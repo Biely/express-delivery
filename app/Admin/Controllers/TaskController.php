@@ -3,7 +3,9 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Task;
+use App\Models\Comment;
 use App\Http\Controllers\Controller;
+use App\Admin\Controllers\CommentController;
 use App\Admin\Extensions\Tools\TasksGet;
 use App\Admin\Extensions\Tools\TaskGet;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -13,6 +15,8 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Http\Request;
 use Encore\Admin\Facades\Admin;
+use Encore\Admin\Layout\Column;
+use Encore\Admin\Layout\Row;
 use Log;
 
 class TaskController extends Controller
@@ -42,10 +46,13 @@ class TaskController extends Controller
      */
     public function show($id, Content $content)
     {
+      $commentctr = new CommentController;
         return $content
             ->header('Detail')
             ->description('description')
-            ->body($this->detail($id));
+            // ->body($this->detail($id));
+            ->row($this->detail($id))
+            ->row($commentctr->form($id,route('comments.store')));
     }
 
     /**
@@ -242,13 +249,15 @@ class TaskController extends Controller
         $show->comments('评论', function ($comments) {
 
           $comments->resource('/admin/comments');
-          $comments->model()->orderBy('id', 'desc');
+          $comments->model()->orderBy('id', 'desc')->paginate(5);
           //$comments->id();
           $comments->formuser('评论人');
           $comments->content('内容')->limit(100);
-          $comments->created_at("评论时间");
+          //$comments->created_at("评论时间");
           //$comments->updated_at();
-
+          $comments->created_at('发布时间')->display(function ($created_at){
+            return  Carbon::parse($created_at)->diffForHumans();
+          });
           $comments->filter(function ($filter) {
               $filter->like('content');
           });
@@ -298,5 +307,18 @@ class TaskController extends Controller
             $post->isok = 1;
             $post->save();
             return "success";
+    }
+
+    public function comment($task_id){
+      $form = new Form(new Comment);
+      $form->tools(function (Form\Tools $tools) {
+          $tools->disableDelete();
+      });
+      $form->hidden('task_id','任务id')->value($task_id);
+      $form->hidden('user_uuid','用户id')->value(Admin::user()->uuid);
+      $form->hidden('formuser','用户名')->value(Admin::user()->name);
+      $form->textarea('content','内容')->rules('required|max:255')->rows(2);
+      $form->file('file','完结凭证')->uniqueName();
+      return $form;
     }
 }
