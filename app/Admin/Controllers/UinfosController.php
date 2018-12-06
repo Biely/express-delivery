@@ -89,8 +89,8 @@ class UinfosController extends Controller
         $grid->etype('快递商家');
         $grid->qq('QQ');
         $grid->tasks('投诉次数')->display(function ($tasks) {
-            $count = count($tasks);
-            return "<span class='label label-warning'>{$count}</span>";
+            //$count = count($tasks);
+            return "<span class='label label-warning'>{$tasks}</span>";
         });
         // $grid->email_verified_at('Email verified at');
         // $grid->password('Password');
