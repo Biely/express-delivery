@@ -55,7 +55,7 @@ class RegisterController extends Controller
             'store' => ['required', 'string', 'max:255'],
             'etype' => ['required', 'string', 'max:255'],
             'qq' => ['required', 'string', 'max:255'],
-            'tel' => ['required', 'numeric', 'max:20'],
+            'tel' => ['required', 'string', 'max:20'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
