@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Task;
 use App\Http\Controllers\Controller;
+use App\Admin\Controllers\CommentController;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -24,8 +25,8 @@ class MyTaskController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('待处理')
+            ->description('任务列表')
             ->body($this->grid());
     }
 
@@ -38,10 +39,12 @@ class MyTaskController extends Controller
      */
     public function show($id, Content $content)
     {
+      $commentctr = new CommentController;
         return $content
-            ->header('Detail')
-            ->description('description')
-            ->body($this->detail($id));
+            ->header('详情')
+            ->description('任务详情')
+            ->row($this->detail($id))
+            ->row($commentctr->form($id,route('comments.store')));
     }
 
     /**
@@ -54,8 +57,8 @@ class MyTaskController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+            ->header('编辑')
+            ->description('内容编辑')
             ->body($this->form()->edit($id));
     }
 
@@ -212,10 +215,15 @@ class MyTaskController extends Controller
         $form->tools(function (Form\Tools $tools) {
             $tools->disableDelete();
         });
+        $form->hidden('deadline','完结期限');
         $form->hidden('isok','是否完结')->value();
         $form->file('file','完结凭证')->uniqueName();
         $form->saving(function (Form $form) {
+          if($form->deadline<time()){
+            $form->isok=2;
+          }else{
             $form->isok=3;
+          }
         });
         return $form;
     }

@@ -3,24 +3,19 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Task;
-use App\Models\Comment;
 use App\Http\Controllers\Controller;
 use App\Admin\Controllers\CommentController;
-use App\Admin\Extensions\Tools\TasksGet;
-use App\Admin\Extensions\Tools\TaskGet;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Illuminate\Http\Request;
 use Encore\Admin\Facades\Admin;
-use Encore\Admin\Layout\Column;
-use Encore\Admin\Layout\Row;
-use Carbon\Carbon;
+use App\Admin\Extensions\Tools\TasksGet;
+use App\Admin\Extensions\Tools\TaskGet;
 use Log;
 
-class TaskController extends Controller
+class StoreController extends Controller
 {
     use HasResourceActions;
 
@@ -33,8 +28,8 @@ class TaskController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('任务中心')
-            ->description('所有任务')
+            ->header(Admin::user()->name)
+            ->description('工单列表')
             ->body($this->grid());
     }
 
@@ -49,9 +44,8 @@ class TaskController extends Controller
     {
       $commentctr = new CommentController;
         return $content
-            ->header('详情')
-            ->description('任务详情')
-            // ->body($this->detail($id));
+            ->header(Admin::user()->name)
+            ->description('问题详情')
             ->row($this->detail($id))
             ->row($commentctr->form($id,route('comments.store')));
     }
@@ -66,7 +60,7 @@ class TaskController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('编辑')
+            ->header(Admin::user()->name)
             ->description('内容编辑')
             ->body($this->form()->edit($id));
     }
@@ -80,11 +74,16 @@ class TaskController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
-            ->description('description')
-            ->body($this->form());
+            ->header('创建')
+            ->description('发布工单')
+            ->body($this->dataform());
     }
 
+    public function store()
+    {
+        //
+        return $this->dataform()->store();
+    }
     /**
      * Make a grid builder.
      *
@@ -92,9 +91,9 @@ class TaskController extends Controller
      */
     protected function grid()
     {
-
         $grid = new Grid(new Task);
-        $grid->model()->orderBy('id', 'desc');
+        $grid->model()->where('store',Admin::user()->name)->orderBy('id', 'desc');
+
         $grid->filter(function($filter){
             $filter->disableIdFilter();
             $filter->equal('eid','快递单号')->integer();
@@ -145,7 +144,7 @@ class TaskController extends Controller
             $tools->batch(function ($batch) {
                 $sid = "'".Admin::user()->uuid."'";
                 $sname = "'".Admin::user()->username."'";
-                //$batch->disableDelete();
+                $batch->disableDelete();
                 $batch->add('领取任务', new TasksGet($sid,$sname));
             });
         });
@@ -205,125 +204,139 @@ class TaskController extends Controller
         });
         $grid->actions(function ($actions) {
           //Log::info($actions->row);
-          $actions->disableEdit();
+          //$actions->disableEdit();
            $actions->disableDelete();
-          if($actions->row->isok == 0){
-            $sid = "'".Admin::user()->uuid."'";
-            $sname = "'".Admin::user()->username."'";
-            $actions->append(new TaskGet($actions->getKey(),$sid,$sname));
-          }
+           if($actions->row->isok == 0){
+             $actions->disableEdit();
+             $sid = "'".Admin::user()->uuid."'";
+             $sname = "'".Admin::user()->username."'";
+             $actions->append(new TaskGet($actions->getKey(),$sid,$sname));
+           }else if(($actions->row->isok >= 1 && $actions->row->sid != Admin::user()->uuid)||($actions->row->isok >= 2 && $actions->row->sid == Admin::user()->uuid)){
+             $actions->disableEdit();
+           }
         });
 
         return $grid;
     }
 
-    public function store()
-    {
-        //
-        return $this->form()->store();
-    }
     /**
      * Make a show builder.
      *
      * @param mixed $id
      * @return Show
      */
-    protected function detail($id)
-    {
-        $show = new Show(Task::findOrFail($id));
+     protected function detail($id)
+     {
+       $show = new Show(Task::findOrFail($id));
 
-        $show->id('工单ID');
-        $show->eid('快递单号');
-        $show->etype('快递类型');
-        $show->qtype('问题类型')->as(function ($qtype) {
-          $data = getQdata($qtype);
-          return $data['name'];
-        });
-        $show->content('问题描述');
-        $show->uname('投诉人');
-        $show->qq('联系方式');
-        $show->times('投诉次数');
-        $show->sname('负责客服')->as(function ($sname) {
-          if($sname==null){
-            return '无';
-          }else{
-            return $sname;
-          }
-        });
-        $show->created_at('发布时间');
-        $show->deadline('完结期限')->as(function ($deadline) {
-          return date("Y-m-d H:i:s",$deadline);
-        })->badge();
-        $show->isok('状态')->unescape()->as(function ($isok){
-          if($isok==0){
-            $d = "";
-            if($this->deadline<time()){
-              $d ="<span style='color:red'>（已超时）</span>";
-            }
-            $w = "<span style='color:#f39c12'>待处理</span>".$d;
-          }
-          if($isok==1){
-            $d = "";
-            if($this->deadline<time()){
-              $d ="<span style='color:red'>（已超时）</span>";
-            }
-            $w = "<span style='color:green'>正在处理</span>".$d;
-          }
-          if($isok==2){
-            $d ="<span style='color:red'>（已超时）</span>";
-            $w = "<span style='color:green'>已完结</span>".$d;
-          }
-          if($isok==3){
-            $w = "<span style='color:green'>已完结</span>";
-          }
-          return $w;
-        });
-        $show->file('处理凭证')->file();
-        $show->score('评价')->unescape()->as(function ($score) {
-          if($score == null){
-            return '无';
-          }else{
-            $str = "";
-            $str1='<i class="fa fa-star fa-lg " style="color:#ffc107" aria-hidden="true"></i>';
-            for($i=0;$i<$score;$i++){
-              $str .= $str1;
-            }
-            return $str;
-          }
-        });
-        $show->comments('评论', function ($comments) {
+       $show->id('工单ID');
+       $show->eid('快递单号');
+       $show->etype('快递类型');
+       $show->qtype('问题类型')->as(function ($qtype) {
+         $data = getQdata($qtype);
+         return $data['name'];
+       });
+       $show->content('问题描述');
+       $show->uname('投诉人');
+       $show->qq('QQ');
+       $show->tel('联系人');
+       $show->times('投诉次数');
+       $show->created_at('发布时间');
+       $show->deadline('完结期限')->as(function ($deadline) {
+         return date("Y-m-d H:i:s",$deadline);
+       })->badge();
+       $show->isok('状态')->unescape()->as(function ($isok){
+         if($isok==0){
+           $d = "";
+           if($this->deadline<time()){
+             $d ="<span style='color:red'>（已超时）</span>";
+           }
+           $w = "<span style='color:#f39c12'>待处理</span>".$d;
+         }
+         if($isok==1){
+           $d = "";
+           if($this->deadline<time()){
+             $d ="<span style='color:red'>（已超时）</span>";
+           }
+           $w = "<span style='color:green'>正在处理</span>".$d;
+         }
+         if($isok==2){
+           $d ="<span style='color:red'>（已超时）</span>";
+           $w = "<span style='color:green'>已完结</span>".$d;
+         }
+         if($isok==3){
+           $w = "<span style='color:green'>已完结</span>";
+         }
+         return $w;
+       });
+       $show->file('处理凭证')->file();
+       $show->score('评价')->unescape()->as(function ($score) {
+         if($score == null){
+           return '无';
+         }else{
+           $str = "";
+           $str1='<i class="fa fa-star fa-lg " style="color:#ffc107" aria-hidden="true"></i>';
+           for($i=0;$i<$score;$i++){
+             $str .= $str1;
+           }
+           return $str;
+         }
+       });
+       $show->divider();
+       $show->comments('评论', function ($comments) {
 
-          $comments->resource('/admin/comments');
-          $comments->model()->orderBy('id', 'desc')->paginate(5);
-          //$comments->id();
-          $comments->formuser('评论人');
-          $comments->content('内容')->limit(100);
-          //$comments->created_at("评论时间");
-          //$comments->updated_at();
-          $comments->created_at('发布时间')->display(function ($created_at){
-            return  Carbon::parse($created_at)->diffForHumans();
-          });
-          $comments->filter(function ($filter) {
-              $filter->like('content');
-          });
-      });
-        return $show;
-    }
+         $comments->resource('/admin/comments');
+         $comments->model()->orderBy('id', 'desc');
+         //$comments->id();
+         $comments->formuser('评论人');
+         $comments->content('内容')->limit(100);
+         $comments->created_at("评论时间");
+         //$comments->updated_at();
+
+         $comments->filter(function ($filter) {
+             $filter->like('content');
+         });
+     });
+       return $show;
+     }
 
     /**
      * Make a form builder.
      *
      * @return Form
      */
-    protected function form()
+    protected function dataform()
     {
-      $form = new Form(new Task);
+        $form = new Form(new Task);
+        $form->tools(function (Form\Tools $tools) {
+            $tools->disableDelete();
+        });
+        $form->text('eid', '快递单号')->rules('required');
+        $form->hidden('store', 'Store')->value(Admin::user()->name);
+        $form->select('etype','快递类型')->options(['中通快递' => '中通快递', '韵达快递' => '韵达快递', '圆通快递' => '圆通快递'])->rules('required');
+        $form->hidden('user_uuid','用户id')->value(Admin::user()->uuid);
+        $form->hidden('uname', '用户名')->value(Admin::user()->name);
+        $form->hidden('qq', 'QQ')->value(Admin::user()->qq);
+        $form->hidden('tel', '联系方式')->value(Admin::user()->tel);
+        $form->hidden('deadline', '完结期限')->value();
+        $form->select('qtype', '问题类型')->options(qdataArry())->rules('required');
+        $form->textarea('content', '问题描述')->rules('required');
+        $form->saving(function (Form $form) {
+          Log::info($form->qtype);
+          Log::info(getQdata($form->qtype));
+          $form->deadline = getDeadline(getQdata($form->qtype)['seconds']);
+        });
 
+        return $form;
+    }
+
+    protected function form(){
+      $form = new Form(new Task);
       $form->tools(function (Form\Tools $tools) {
           $tools->disableDelete();
       });
+      $form->hidden('deadline','完结期限');
       $form->hidden('isok','是否完结')->value();
-      $form->hidden('deadline','完结时间')->value();
       $form->file('file','完结凭证')->uniqueName();
       $form->saving(function (Form $form) {
         if($form->deadline<time()){
@@ -332,38 +345,6 @@ class TaskController extends Controller
           $form->isok=3;
         }
       });
-      return $form;
-    }
-    //批量领取任务
-    public function tasksget(Request $request){
-        foreach (Task::find($request->input('ids')) as $post) {
-            $post->sid = $request->input('action');
-            $post->sname = $request->input('sname');
-            $post->isok = 1;
-            $post->save();
-        }
-        return "success";
-    }
-
-    public function taskget(Request $request){
-            $post=Task::find($request->input('id'));
-            $post->sid = $request->input('sid');
-            $post->sname = $request->input('sname');
-            $post->isok = 1;
-            $post->save();
-            return "success";
-    }
-
-    public function comment($task_id){
-      $form = new Form(new Comment);
-      $form->tools(function (Form\Tools $tools) {
-          $tools->disableDelete();
-      });
-      $form->hidden('task_id','任务id')->value($task_id);
-      $form->hidden('user_uuid','用户id')->value(Admin::user()->uuid);
-      $form->hidden('formuser','用户名')->value(Admin::user()->name);
-      $form->textarea('content','内容')->rules('required|max:255')->rows(2);
-      $form->file('file','完结凭证')->uniqueName();
       return $form;
     }
 }

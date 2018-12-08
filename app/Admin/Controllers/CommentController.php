@@ -28,8 +28,8 @@ class CommentController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('用户评论')
+            ->description('列表')
             ->body($this->grid());
     }
 
@@ -44,8 +44,8 @@ class CommentController extends Controller
     {
       $data = $request->input();
         return $content
-            ->header('Detail')
-            ->description('description')
+            ->header('详情')
+            ->description('评论详情')
             ->row($this->detail($id))
             ->row($this->form($data['task_id'],route('comments.store')));
     }

@@ -21,7 +21,7 @@ $('{$this->getElementClass()}').on('click', function() {
 
     $.ajax({
         method: 'post',
-        url: '{$this->resource}/tasksget',
+        url: '/admin/hall/alltasks/tasksget',
         data: {
             _token:LA.token,
             ids: selectedRows(),

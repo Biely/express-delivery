@@ -23,8 +23,8 @@ class QuestionController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('问题分类')
+            ->description('问题列表')
             ->body($this->grid());
     }
 
@@ -38,8 +38,8 @@ class QuestionController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
-            ->description('description')
+            ->header('详情')
+            ->description('问题详情')
             ->body($this->detail($id));
     }
 
@@ -53,8 +53,8 @@ class QuestionController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+            ->header('编辑')
+            ->description('内容编辑')
             ->body($this->form()->edit($id));
     }
 
@@ -67,8 +67,8 @@ class QuestionController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
-            ->description('description')
+            ->header('创建')
+            ->description('创建问题')
             ->body($this->form());
     }
 

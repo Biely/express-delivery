@@ -10,6 +10,8 @@ Route::group([
     'middleware'    => config('admin.route.middleware'),
 ], function (Router $router) {
     $router->resource('comments', 'CommentController');
+    $router->resource('store', 'StoreController');
+    $router->resource('express', 'ExpressController');
     $router->get('/', 'HomeController@index');
     Route::prefix('hall')->group(function (Router $router) {
       $router->resource('alltasks', 'TaskController');

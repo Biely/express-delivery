@@ -26,7 +26,7 @@ class SubTaskController extends Controller
     {
         //
         $data = getQtypes();
-        dump($data);
+        return abort(404);
     }
 
     /**
@@ -66,6 +66,7 @@ class SubTaskController extends Controller
         $task->etype = $user->etype;
         $task->store = $user->store;
         $task->qq = $user->qq;
+        $task->tel = $user->tel;
         $task->uname = $user->name;
         $task->user_uuid = $user->uuid;
         $task->deadline = $deadline;

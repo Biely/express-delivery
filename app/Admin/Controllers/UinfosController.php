@@ -23,8 +23,8 @@ class UinfosController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('客户信息')
+            ->description('列表')
             ->body($this->grid());
     }
 
@@ -38,8 +38,8 @@ class UinfosController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
-            ->description('description')
+            ->header('详情')
+            ->description('客户信息')
             ->body($this->detail($id));
     }
 
@@ -53,8 +53,8 @@ class UinfosController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+            ->header('编辑')
+            ->description('客户信息')
             ->body($this->form()->edit($id));
     }
 

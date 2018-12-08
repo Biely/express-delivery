@@ -16,7 +16,7 @@ class PersonController extends Controller
      public function __construct()
      {
         $this->middleware('auth');
-     } 
+     }
 
     public function index()
     {
@@ -32,7 +32,7 @@ class PersonController extends Controller
      */
     public function create()
     {
-        //
+        return abort(404);
     }
 
     /**
@@ -43,7 +43,7 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return abort(404);
     }
 
     /**
@@ -54,7 +54,7 @@ class PersonController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return abort(404);
     }
 
     /**
@@ -106,6 +106,6 @@ class PersonController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        return abort(404);
     }
 }

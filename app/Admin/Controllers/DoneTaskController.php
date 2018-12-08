@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Task;
 use App\Http\Controllers\Controller;
+use App\Admin\Controllers\CommentController;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -24,8 +25,8 @@ class DoneTaskController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('已完结')
+            ->description('列表')
             ->body($this->grid());
     }
 
@@ -38,10 +39,12 @@ class DoneTaskController extends Controller
      */
     public function show($id, Content $content)
     {
+      $commentctr = new CommentController;
         return $content
-            ->header('Detail')
-            ->description('description')
-            ->body($this->detail($id));
+            ->header('详情')
+            ->description('任务详情')
+            ->row($this->detail($id))
+            ->row($commentctr->form($id,route('comments.store')));
     }
 
     /**
@@ -54,8 +57,8 @@ class DoneTaskController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+            ->header('编辑')
+            ->description('内容编辑')
             ->body($this->form()->edit($id));
     }
 
@@ -68,7 +71,7 @@ class DoneTaskController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
+            ->header('创建')
             ->description('description')
             ->body($this->form());
     }
