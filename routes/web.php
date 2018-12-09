@@ -28,3 +28,7 @@ Route::post('subtask/{subtask}','SubTaskController@update');
 Route::post('comment','CommentController@store')->name('comment.store');
 Route::get('score/{taskid}','SubTaskController@score')->name('score');
 Route::post('moretask/{taskid}','SubTaskController@moretask')->name('moretask');
+Route::post('searchtasks','HomeController@search')->name('searchtask');
+Route::get('searchtasks', function () {
+    return redirect('/home');
+});

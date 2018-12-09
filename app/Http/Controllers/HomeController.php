@@ -14,6 +14,7 @@ class HomeController extends Controller
      *
      * @return void
      */
+    
     public function __construct()
     {
         $this->middleware('auth');
@@ -76,5 +77,22 @@ class HomeController extends Controller
       $isok['1'] = $tasks->where('isok','1')->count();
       $isok['2'] = $tasks->where('isok','>','1')->count();
       return $isok;
+    }
+
+    public function search(Request $request, Task $task){
+      $user = Auth::user();
+      $count = taskcount($user->uuid);
+      $this->isshangban($request);
+      $this->validate($request, [
+        'eid' => ['required', 'string', 'max:255']
+      ]);
+      $data = $request->all();
+      $tasks = $task->where('eid',$data['eid'])->where('user_uuid',$user->uuid)->paginate(10);
+      if($tasks->count()==0){
+        $request->session()->flash('error', '查找不到工单');
+        return view('home',compact('user','tasks','s','count'));
+      }else{
+        return view('home',compact('user','tasks','s','count'));
+      }
     }
 }

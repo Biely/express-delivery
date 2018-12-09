@@ -279,6 +279,7 @@ class CommentController extends Controller
      */
     public function form($taskid = '',$action = null)
     {
+        $task = Comment::findOrFail($taskid);
         $form = new Form(new Comment);
         if($action != null){
           $form->setAction($action);
@@ -287,6 +288,7 @@ class CommentController extends Controller
         $form->hidden('task_id', '任务id')->value($taskid);
         $form->hidden('user_uuid','用户id')->value(Admin::user()->uuid);
         $form->hidden('formuser','用户名')->value(Admin::user()->name);
+        $form->hidden('touser','回复人')->value($task->user_uuid);
         $form->textarea('content','内容')->rules('required|max:255')->rows(1);
         $form->file('file','附件')->uniqueName();
         $form->saved(function (Form $form) {

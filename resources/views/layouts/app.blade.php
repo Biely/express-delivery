@@ -52,6 +52,17 @@
                             </li>
                         @else
                             <li class="nav-item">
+                                <form class="form-inline" method="POST" action="{{ route('searchtask') }}">
+                                        @csrf
+                                <div class="input-group mr-2">
+                                    <input type="text"  class="form-control{{ $errors->has('eid') ? ' is-invalid' : '' }}" placeholder="{{ $errors->has('eid') ? '请输入快递单号' : '请输入快递单号' }}" name="eid" aria-label="请输入单号" aria-describedby="basic-addon2" required>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="submit">搜索工单</button>
+                                        </div>
+                                    </div>
+                                  </form>
+                            </li>
+                            <li class="nav-item">
                               <a class="nav-link" href="{{ route('subtask.create') }}"><span class="far fa-edit" aria-hidden="true"></span>提交工单</a>
                             </li>
                             <li class="nav-item dropdown">
