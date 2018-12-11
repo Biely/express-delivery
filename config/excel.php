@@ -428,7 +428,7 @@ return array(
         |
         */
 
-        'to_ascii'                => true,
+        'to_ascii'                => false,
 
         /*
         |--------------------------------------------------------------------------
@@ -438,8 +438,8 @@ return array(
 
         'encoding'                => [
 
-            'input'  => 'UTF-8',
-            'output' => 'UTF-8'
+            'input'  => 'GBK',
+            'output' => 'GBK'
 
         ],
 

@@ -12,11 +12,13 @@ Route::group([
     $router->resource('comments', 'CommentController');
     $router->resource('store', 'StoreController');
     $router->resource('express', 'ExpressController');
+    $router->resource('wandian', 'WandianController');
     $router->get('/', 'HomeController@index');
     Route::prefix('hall')->group(function (Router $router) {
       $router->resource('alltasks', 'TaskController');
       $router->post('alltasks/tasksget', 'TaskController@tasksget');
       $router->post('alltasks/taskget', 'TaskController@taskget');
+      $router->post('savetask','TaskController@savetask')->name('savetask');
       //我的任务
       $router->resource('mytasks', 'MyTaskController');
       //已超时任务
@@ -29,4 +31,5 @@ Route::group([
       $router->resource('qtype', 'QuestionController');
     });
     //$router->resource('hall', 'TaskController');
+    
 });

@@ -18,6 +18,8 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Row;
 use Carbon\Carbon;
+use App\Admin\Extensions\ExcelExpoter;
+use Excel;
 use Log;
 
 class TaskController extends Controller
@@ -80,9 +82,9 @@ class TaskController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
-            ->description('description')
-            ->body($this->form());
+            ->header('导入数据')
+            ->description('上传文件')
+            ->body($this->uploadtask());
     }
 
     /**
@@ -201,19 +203,26 @@ class TaskController extends Controller
           if($isok==3){
             $w = "<span style='color:green'>已完结</span>";
           }
+          $this->deadline = $w;
           return $w;
         });
         $grid->actions(function ($actions) {
           //Log::info($actions->row);
           $actions->disableEdit();
            $actions->disableDelete();
+           $actions->disableView();
+           $actions->append("<a class='btn btn-xs btn-info' href=".route('alltasks.show',$actions->row->id).">查看详情</a>");
           if($actions->row->isok == 0){
             $sid = "'".Admin::user()->uuid."'";
             $sname = "'".Admin::user()->username."'";
             $actions->append(new TaskGet($actions->getKey(),$sid,$sname));
           }
-        });
 
+        });
+        $excel = new ExcelExpoter();
+        $excel->setAttr(['工单id', '快递单号','快递类型','网点','客户','QQ','联系方式','投诉次数','问题类型','内容','完结期限','状态','负责客服','评价','发布时间','最后更新时间'], ['id', 'eid','etype','store','uname','qq','tel','times','content','qtype','deadline','isok','sname','score','created_at','updated_at']);
+        $grid->exporter($excel);
+        //$grid->exporter(new ExcelExpoter());
         return $grid;
     }
 
@@ -239,7 +248,6 @@ class TaskController extends Controller
           $data = getQdata($qtype);
           return $data['name'];
         });
-        $show->content('问题描述');
         $show->uname('投诉人');
         $show->qq('联系方式');
         $show->times('投诉次数');
@@ -278,7 +286,6 @@ class TaskController extends Controller
           }
           return $w;
         });
-        $show->file('处理凭证')->file();
         $show->score('评价')->unescape()->as(function ($score) {
           if($score == null){
             return '无';
@@ -291,8 +298,9 @@ class TaskController extends Controller
             return $str;
           }
         });
+        $show->content('问题描述');
+        $show->file('处理凭证')->file();
         $show->comments('评论', function ($comments) {
-
           $comments->resource('/admin/comments');
           $comments->model()->orderBy('id', 'desc')->paginate(5);
           //$comments->id();
@@ -346,12 +354,12 @@ class TaskController extends Controller
     }
 
     public function taskget(Request $request){
-            $post=Task::find($request->input('id'));
-            $post->sid = $request->input('sid');
-            $post->sname = $request->input('sname');
-            $post->isok = 1;
-            $post->save();
-            return "success";
+      $post=Task::find($request->input('id'));
+      $post->sid = $request->input('sid');
+      $post->sname = $request->input('sname');
+      $post->isok = 1;
+      $post->save();
+      return "success";
     }
 
     public function comment($task_id){
@@ -365,5 +373,34 @@ class TaskController extends Controller
       $form->textarea('content','内容')->rules('required|max:255')->rows(2);
       $form->file('file','完结凭证')->uniqueName();
       return $form;
+    }
+
+    public function uploadtask(){
+      $form = new \Encore\Admin\Widgets\Form();
+
+      // $form->tools(function (Form\Tools $tools) {
+      //     $tools->disableDelete();
+      // });
+      //$form->file('file','完结凭证')->uniqueName();
+      //$form->disablePjax()
+      $form->action(route('savetask'));
+      $form->largefile('file', '导入任务');
+      return $form->render();
+    }
+
+    public function savetask(Request $request){
+      $this->validate($request, [
+        'file' => ['required', 'string', 'max:255']
+      ]);
+      $data=$request->all();
+      $path = 'storage/app/aetherupload/'.$data['file'];
+      //dump($path);
+      Excel::filter('chunk')->load($path)->chunk(250, function($results)
+      {
+        foreach($results as $row)
+        {
+          dump($row);
+        }
+      });
     }
 }

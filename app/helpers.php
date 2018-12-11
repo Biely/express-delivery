@@ -121,3 +121,8 @@ function taskcount($user_uuid){
   $data['all'] = $tasks->count();
   return $data;
 }
+
+function wdlist(){
+  $wds = app()->make('App\Models\Store')->get();
+  return $wds;
+}

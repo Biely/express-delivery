@@ -67,12 +67,16 @@
                             </div>
                         </div>
 
+
                         <div class="form-group row">
                             <label for="store" class="col-md-4 col-form-label text-md-right">{{ __('快递网点') }}</label>
 
                             <div class="col-md-6">
-                                <input id="store" type="text" class="form-control{{ $errors->has('store') ? ' is-invalid' : '' }}" name="store" value="{{ old('store') }}" required>
-
+                              <select id="store" class="form-control{{ $errors->has('store') ? ' is-invalid' : '' }}" name="store">
+                                @foreach (wdlist() as $store)
+                                    <option value="{{ $store->name }}">{{ $store->name }}</option>
+                                @endforeach
+                              </select>
                                 @if ($errors->has('store'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('store') }}</strong>

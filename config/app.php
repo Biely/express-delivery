@@ -173,6 +173,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -222,6 +223,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'UUID' => Webpatser\Uuid\Uuid::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         //'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
     ],
 
