@@ -127,6 +127,7 @@ class DoneTaskController extends Controller
        $grid->actions(function ($actions) {
           $actions->disableDelete();
           $actions->disableEdit();
+          $actions->append("<a class='btn btn-xs btn-info' href=".route('donetasks.show',$actions->row->id).">查看详情</a>");
        });
        $grid->tools(function ($tools) {
            $tools->batch(function ($batch) {

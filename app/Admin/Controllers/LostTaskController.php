@@ -115,6 +115,7 @@ class LostTaskController extends Controller
        })->badge();
        $grid->actions(function ($actions) {
           $actions->disableDelete();
+          $actions->append("<a class='btn btn-xs btn-info' href=".route('losttasks.show',$actions->row->id).">查看详情</a>");
        });
        $grid->tools(function ($tools) {
            $tools->batch(function ($batch) {
