@@ -83,6 +83,8 @@ class WandianController extends Controller
 
         $grid->id('网点ID');
         $grid->name('网点名称');
+        $grid->etype('快递公司');
+        $grid->content('备注');
         $grid->created_at('Created at');
         $grid->updated_at('Updated at');
 
@@ -101,6 +103,8 @@ class WandianController extends Controller
 
         $show->id('网点ID');
         $show->name('网点名称');
+        $show->etype('快递公司');
+        $show->content('备注');
         $show->created_at('Created at');
         $show->updated_at('Updated at');
 
@@ -117,6 +121,8 @@ class WandianController extends Controller
         $form = new Form(new Store);
 
         $form->text('name','网点名称');
+        $form->select('etype','快递公司')->options(edatas());
+        $form->textarea('content','备注')->rows(2);
 
         return $form;
     }

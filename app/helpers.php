@@ -131,3 +131,13 @@ function elists(){
   $es = app()->make('App\Models\Elist')->get();
   return $es;
 }
+
+function edatas(){
+  $es = elists();
+  $row = [];
+  foreach ($es as $key => $e) {
+    # code...
+    $row[$kay] = $e->name;
+  }
+  return $row;
+}
