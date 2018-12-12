@@ -96,7 +96,11 @@ class TaskController extends Controller
     {
 
         $grid = new Grid(new Task);
-        $grid->model()->orderBy('id', 'desc');
+        if(Admin::user()->roles == 7){
+          $grid->model()->where('isok','<','1')->orderBy('id', 'desc');
+        }else{
+          $grid->model()->orderBy('id', 'desc');
+        }
         $grid->filter(function($filter){
             $filter->disableIdFilter();
             $filter->equal('eid','快递单号')->integer();
