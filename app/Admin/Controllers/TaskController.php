@@ -224,7 +224,7 @@ class TaskController extends Controller
 
         });
         $excel = new ExcelExpoter();
-        $excel->setAttr(['工单id', '快递单号','快递类型','网点','客户','QQ','联系方式','投诉次数','问题类型','内容','完结期限','状态','负责客服','评价','发布时间','最后更新时间'], ['id', 'eid','etype','store','uname','qq','tel','times','content','qtype','deadline','isok','sname','score','created_at','updated_at']);
+        $excel->setAttr(['工单id', '快递单号','快递类型','网点','客户','QQ','联系方式','投诉次数','问题类型','内容','完结期限','状态','负责客服','评价','发布时间','最后更新时间'], ['id', 'eid','etype','store','uname','qq','tel','times','qtype','content','deadline','isok','sname','score','created_at','updated_at']);
         $grid->exporter($excel);
         //$grid->exporter(new ExcelExpoter());
         return $grid;
