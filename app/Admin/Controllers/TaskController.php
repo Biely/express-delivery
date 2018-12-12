@@ -96,7 +96,7 @@ class TaskController extends Controller
     {
 
         $grid = new Grid(new Task);
-        if(Admin::user()->roles == 7){
+        if(Admin::user()->roles){
           $grid->model()->where('isok','<','1')->orderBy('id', 'desc');
         }else{
           $grid->model()->orderBy('id', 'desc');
@@ -150,7 +150,7 @@ class TaskController extends Controller
         $grid->tools(function ($tools) {
             $tools->batch(function ($batch) {
                 $sid = "'".Admin::user()->uuid."'";
-                $sname = "'".Admin::user()->username."'";
+                $sname = "'".Admin::user()->username.Admin::user()->roles."'";
                 //$batch->disableDelete();
                 $batch->add('领取任务', new TasksGet($sid,$sname));
             });
