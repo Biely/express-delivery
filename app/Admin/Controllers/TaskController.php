@@ -210,6 +210,13 @@ class TaskController extends Controller
           $this->deadline = $w;
           return $w;
         });
+        $grid->isduty("是否有责")->display(function($isduty){
+          if($isduty == 1) {
+            return "是";
+          }else{
+            return "否";
+          }
+        });
         $grid->actions(function ($actions) {
           //Log::info($actions->row);
           $actions->disableEdit();
@@ -300,6 +307,13 @@ class TaskController extends Controller
               $str .= $str1;
             }
             return $str;
+          }
+        });
+        $show->isduty("是否有责")->as(function ($isduty){
+          if($isduty == 1) {
+            return "是";
+          }else{
+            return "否";
           }
         });
         $show->content('问题描述');
