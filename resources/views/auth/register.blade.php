@@ -68,7 +68,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="etype" class="col-md-4 col-form-label text-md-right">{{ __('快递商家') }}</label>
+                            <label for="etype" class="col-md-4 col-form-label text-md-right">{{ __('快递公司') }}</label>
 
                             <div class="col-md-6">
                               <select id="etype" class="form-control{{ $errors->has('etype') ? ' is-invalid' : '' }}" name="etype">
