@@ -91,7 +91,7 @@ class ExpressController extends Controller
      protected function grid()
      {
          $grid = new Grid(new Task);
-         $grid->model()->where('etype',Admin::user()->name)->orderBy('id', 'desc');
+         $grid->model()->where('etype',Admin::user()->etype)->orderBy('id', 'desc');
 
          $grid->filter(function($filter){
              $filter->disableIdFilter();
