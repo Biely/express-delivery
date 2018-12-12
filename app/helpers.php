@@ -137,7 +137,7 @@ function edatas(){
   $row = [];
   foreach ($es as $key => $e) {
     # code...
-    $row[$kay] = $e->name;
+    $row[$key] = $e->name;
   }
   return $row;
 }
