@@ -97,7 +97,7 @@ class TaskController extends Controller
 
         $grid = new Grid(new Task);
         if(Admin::user()->roles[0]->id == "7"){
-          $grid->model()->where('isok','<','1')->orderBy('id', 'desc');
+          $grid->model()->where('isok','<','1')->where('etype',Admin::user()->etype)->orderBy('id', 'desc');
         }else{
           $grid->model()->orderBy('id', 'desc');
         }
