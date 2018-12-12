@@ -67,6 +67,22 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="etype" class="col-md-4 col-form-label text-md-right">{{ __('快递商家') }}</label>
+
+                            <div class="col-md-6">
+                              <select id="etype" class="form-control{{ $errors->has('etype') ? ' is-invalid' : '' }}" name="etype">
+                                @foreach (elists() as $elist)
+                                    <option value="{{ $elist->name }}">{{ $elist->name }}</option>
+                                @endforeach
+                              </select>
+                                @if ($errors->has('etype'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('etype') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="store" class="col-md-4 col-form-label text-md-right">{{ __('快递网点') }}</label>
@@ -85,22 +101,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="etype" class="col-md-4 col-form-label text-md-right">{{ __('快递商家') }}</label>
-
-                            <div class="col-md-6">
-                              <select id="etype" class="form-control{{ $errors->has('etype') ? ' is-invalid' : '' }}" name="etype">
-                                <option value="中通快递" selected>中通快递</option>
-                                <option value="圆通快递">圆通快递</option>
-                                <option value="韵达快递">韵达快递</option>
-                              </select>
-                                @if ($errors->has('etype'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('etype') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>

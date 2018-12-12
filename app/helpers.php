@@ -126,3 +126,8 @@ function wdlist(){
   $wds = app()->make('App\Models\Store')->get();
   return $wds;
 }
+
+function elists(){
+  $es = app()->make('App\Models\Elist')->get();
+  return $es;
+}
