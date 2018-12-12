@@ -403,7 +403,7 @@ class TaskController extends Controller
       {
         foreach($results as $row)
         {
-          dump($row);
+          dump((int)$row['快递单号']);
         }
       });
     }

@@ -13,6 +13,7 @@ Route::group([
     $router->resource('store', 'StoreController');
     $router->resource('express', 'ExpressController');
     $router->resource('wandian', 'WandianController');
+    $router->resource('elist', 'ElistController');
     $router->get('/', 'HomeController@index');
     Route::prefix('hall')->group(function (Router $router) {
       $router->resource('alltasks', 'TaskController');
