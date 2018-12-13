@@ -405,18 +405,18 @@ class TaskController extends Controller
       //$form->file('file','完结凭证')->uniqueName();
       //$form->disablePjax()
       $form->action(route('savetask'));
-      //$form->file('excel','导入任务')->uniqueName();
-      $form->largefile('excel', '导入任务');
+      //$form->file('file','导入任务');
+      $form->largefile('file', '导入任务');
       return $form->render();
     }
 
     public function savetask(Request $request){
       $this->validate($request, [
-        'excel' => ['required']
+        'file' => ['required', 'string', 'max:255']
       ]);
-      $data=$request->all();
-      $path = $data['excel'];
-      dump($path);
+      $data=$request->input();
+      $path = 'storage/app/aetherupload/'.$data['file'];
+      //dump($path);
       //$excel = app()->make('excel');
       Excel::filter('chunk')->load($path)->chunk(250, function($results)
       {
