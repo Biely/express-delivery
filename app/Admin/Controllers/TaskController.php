@@ -87,7 +87,13 @@ class TaskController extends Controller
         return $content
             ->header('导入数据')
             ->description('上传文件')
-            ->body($this->uploadtask());
+            ->row(function (Row $row) {
+
+              $row->column(2,"");
+          
+              $row->column(8, "<a class='btn btn-info' href='http://mifengjf.com/uploads/files/temple.csv' target='_blank'>下载模板</a><br>注意：1.文件必须是.csv格式；<br>2.文件第一行字段名称不可更改;<br>3.文件内容不可包含英语逗号(,)");
+          })
+            ->row($this->uploadtask());
     }
 
     /**
