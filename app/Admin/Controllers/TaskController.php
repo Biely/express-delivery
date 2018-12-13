@@ -422,7 +422,7 @@ class TaskController extends Controller
       {
         $head = ['快递单号'=>'eid','快递类型'=>'etype','网点'=>'store','客户'=>'store','内容'=>'content','问题类型'=>'qtype'];
         Event::fire(new UploadDatas($results,$head));
-        dump($head);
+        //dump($head);
       });
       
       //return 1;

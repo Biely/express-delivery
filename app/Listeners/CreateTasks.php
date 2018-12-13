@@ -30,10 +30,10 @@ class CreateTasks
         //
         $head = $event->head;
         $row=[];
-        // foreach ($event->data as $key => $d) {
-        //     # code...
-        //     dump($d);
-        // }
+        foreach ($event->data as $key => $d) {
+            # code...
+            Log::info($d);
+        }
         Log::info($event->data);
     }
 }
