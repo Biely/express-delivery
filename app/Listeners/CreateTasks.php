@@ -36,7 +36,7 @@ class CreateTasks
             $temp=[];
             foreach ($d as $k => $v) {
                 # code...
-                Log::info(getQid($k));
+                Log::info($k);
                 // switch ($k) {
                 //     case '问题类型':
                 //         $qdata = getQid($k);
