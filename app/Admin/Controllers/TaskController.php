@@ -2,6 +2,10 @@
 
 namespace App\Admin\Controllers;
 
+
+use Excel;
+use Log;
+use Event;
 use App\Models\Task;
 use App\Models\Comment;
 use App\Http\Controllers\Controller;
@@ -19,8 +23,7 @@ use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Row;
 use Carbon\Carbon;
 use App\Admin\Extensions\ExcelExpoter;
-use Excel;
-use Log;
+use App\Events\UploadDatas;
 
 class TaskController extends Controller
 {
@@ -413,12 +416,11 @@ class TaskController extends Controller
       $data=$request->all();
       $path = 'storage/app/aetherupload/'.$data['file'];
       //dump($path);
-      Excel::filter('chunk')->load($path)->chunk(250, function($results)
+      $head = ['快递单号'=>'eid','快递类型'=>'etype','网点'=>'store','客户'=>'store','内容'=>'content','问题类型'=>'qtype'];
+      Excel::filter('chunk')->load($path)->chunk(250, function($results) use ($head)
       {
-        foreach($results as $row)
-        {
-          dump((int)$row['快递单号']);
-        }
+        Event::fire(new UploadDatas($results,$post));
+
       });
     }
 }
