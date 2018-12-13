@@ -6,6 +6,7 @@ use App\Events\UploadDatas;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Encore\Admin\Facades\Admin;
+use DB;
 use Log;
 
 class CreateTasks
@@ -44,6 +45,9 @@ class CreateTasks
                         $temp['deadline'] = getDeadline($qdata['seconds']);
                         $temp['user_uuid'] = Admin::user()->uuid;
                         break;
+                    case '快递单号':
+                        $temp['eid'] = time();
+                        break;
                     default:
                         $temp[$head[$k]] = $v;
                         break;
@@ -51,6 +55,10 @@ class CreateTasks
             }
             $row[]=$temp;
         }
-        Log::info($row);
+        
+        //Log::info($row);
+        DB::transaction(function () {
+            DB::table('tasks')->insert($row);
+        }, 5);
     }
 }
