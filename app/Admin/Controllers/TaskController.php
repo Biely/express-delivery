@@ -424,7 +424,7 @@ class TaskController extends Controller
         Event::fire(new UploadDatas($results,$head));
         //dump($head);
       });
-      admin_toastr('Message...', 'success');
+      admin_toastr('导入成功', 'success');
       return redirect()->route('alltasks.index');
     }
 }
