@@ -425,6 +425,6 @@ class TaskController extends Controller
         //dump($head);
       });
       
-      return 1;
+      return redirect()->route('alltasks.index')->withSuccess('Title', 'messages..');
     }
 }
