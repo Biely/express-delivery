@@ -36,20 +36,21 @@ class CreateTasks
             $temp=[];
             foreach ($d as $k => $v) {
                 # code...
-                switch ($k) {
-                    case '问题类型':
-                        $qdata = getQid($k);
-                        $temp[$head[$k]] = $qdata['id'];
-                        $temp['deadline'] = getDeadline($qdata['seconds']);
-                        $temp['user_uuid'] = Admin::user()->uuid;
-                        break;
-                    default:
-                        $temp[$head[$k]] = $v;
-                        break;
-                }
+                Log::info(getQid($k))
+                // switch ($k) {
+                //     case '问题类型':
+                //         $qdata = getQid($k);
+                //         $temp[$head[$k]] = $qdata['id'];
+                //         $temp['deadline'] = getDeadline($qdata['seconds']);
+                //         $temp['user_uuid'] = Admin::user()->uuid;
+                //         break;
+                //     default:
+                //         $temp[$head[$k]] = $v;
+                //         break;
+                // }
             }
             $row[]=$temp;
         }
-        Log::info($row);
+        //Log::info($row);
     }
 }
