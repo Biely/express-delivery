@@ -6,7 +6,6 @@ use App\Events\UploadDatas;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Encore\Admin\Facades\Admin;
-use App\Models\Task;
 use DB;
 use Log;
 
@@ -42,9 +41,12 @@ class CreateTasks
                 switch ($k) {
                     case '问题类型':
                         $qdata = getQid($v);
+                        $now = date("Y-m-d H:i:s",time());
                         $temp[$head[$k]] = $qdata['id'];
                         $temp['deadline'] = getDeadline($qdata['seconds']);
                         $temp['user_uuid'] = Admin::user()->uuid;
+                        $temp['created_at'] = $now;
+                        $temp['updated_at'] = $now;
                         break;
                     // case '快递单号':
                     //     $temp['eid'] = time();
@@ -58,6 +60,8 @@ class CreateTasks
         }
         
         //Log::info($row);
-        Task::create($row);
+        DB::transaction(function () use ($row){
+            Task::create($row)->insert($row);
+        }, 5);
     }
 }
