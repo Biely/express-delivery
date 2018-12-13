@@ -57,7 +57,7 @@ class CreateTasks
         }
         
         //Log::info($row);
-        DB::transaction(function () {
+        DB::transaction(function () use ($row){
             DB::table('tasks')->insert($row);
         }, 5);
     }
