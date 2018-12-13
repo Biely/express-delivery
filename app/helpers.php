@@ -43,6 +43,18 @@ function getQdata($id){
   }
   return $result;
 }
+
+function getQid($name){
+  $datas = getQtypes();
+  $result = [];
+  foreach ($datas as $key => $data) {
+    if($data['name']==$name){
+      $result = $data;
+      break;
+    }
+  }
+  return $result;
+}
 //按上下班时间生成超时时间
 function getDeadline($seconds){
   $nexttime = time(); //当前时间
