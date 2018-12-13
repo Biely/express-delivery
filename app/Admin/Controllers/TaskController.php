@@ -424,7 +424,7 @@ class TaskController extends Controller
         Event::fire(new UploadDatas($results,$head));
         //dump($head);
       });
-      
-      return redirect()->route('alltasks.index')->withSuccess('Title', 'messages..');
+      admin_toastr('Message...', 'success');
+      return redirect()->route('alltasks.index');
     }
 }
