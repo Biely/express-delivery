@@ -405,22 +405,26 @@ class TaskController extends Controller
       //$form->file('file','完结凭证')->uniqueName();
       //$form->disablePjax()
       $form->action(route('savetask'));
-      $form->largefile('file', '导入任务');
+      //$form->file('excel','导入任务')->uniqueName();
+      $form->largefile('excel', '导入任务');
       return $form->render();
     }
 
     public function savetask(Request $request){
       $this->validate($request, [
-        'file' => ['required', 'string', 'max:255']
+        'excel' => ['required']
       ]);
       $data=$request->all();
-      $path = 'storage/app/aetherupload/'.$data['file'];
-      //dump($path);
-      $head = ['快递单号'=>'eid','快递类型'=>'etype','网点'=>'store','客户'=>'store','内容'=>'content','问题类型'=>'qtype'];
-      Excel::filter('chunk')->load($path)->chunk(250, function($results) use ($head)
+      $path = $data['excel'];
+      dump($path);
+      //$excel = app()->make('excel');
+      Excel::filter('chunk')->load($path)->chunk(250, function($results)
       {
+        $head = ['快递单号'=>'eid','快递类型'=>'etype','网点'=>'store','客户'=>'store','内容'=>'content','问题类型'=>'qtype'];
         Event::fire(new UploadDatas($results,$head));
-
+        dump($head);
       });
+      
+      //return 1;
     }
 }

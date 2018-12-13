@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\UploadDatas;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Log;
 
 class CreateTasks
 {
@@ -33,6 +34,6 @@ class CreateTasks
         //     # code...
         //     dump($d);
         // }
-        dump($event->data);
+        Log::info($event->data);
     }
 }
