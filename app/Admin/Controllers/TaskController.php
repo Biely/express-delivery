@@ -420,7 +420,7 @@ class TaskController extends Controller
       //$excel = app()->make('excel');
       Excel::filter('chunk')->load($path)->chunk(250, function($results)
       {
-        $head = ['快递单号'=>'eid','快递类型'=>'etype','网点'=>'store','客户'=>'store','内容'=>'content','问题类型'=>'qtype'];
+        $head = ['快递单号'=>'eid','快递类型'=>'etype','网点'=>'store','客户'=>'sname','内容'=>'content','问题类型'=>'qtype'];
         Event::fire(new UploadDatas($results,$head));
         //dump($head);
       });
