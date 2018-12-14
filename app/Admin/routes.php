@@ -32,6 +32,7 @@ Route::group([
       $router->resource('qtype', 'QuestionController');
     });
     $router->resource('comments', 'CommentController');
+    // $router->post('storecommt', 'CommentController@sform')->name('storecomment');
     //$router->resource('hall', 'TaskController');
     
 });

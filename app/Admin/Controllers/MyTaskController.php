@@ -39,12 +39,14 @@ class MyTaskController extends Controller
      */
     public function show($id, Content $content)
     {
+      $task=Task::findOrFail($id);
       $commentctr = new CommentController;
         return $content
             ->header('详情')
             ->description('任务详情')
+            // ->body($this->detail($id));
             ->row($this->detail($id))
-            ->row($commentctr->form($id,route('comments.store')));
+            ->row($commentctr->form($id,$task->user_uuid,route('comments.store')));
     }
 
     /**

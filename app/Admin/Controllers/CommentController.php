@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Comment;
 use App\Http\Controllers\Controller;
+use App\Models\Task;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -277,9 +278,9 @@ class CommentController extends Controller
      *
      * @return Form
      */
-    public function form($taskid = '',$action = null)
+    public function form($taskid = '',$user_uuid="",$action = null)
     {
-        $task = Comment::findOrFail($taskid);
+        //$task = Task::findOrFail($taskid);
         $form = new Form(new Comment);
         if($action != null){
           $form->setAction($action);
@@ -288,7 +289,7 @@ class CommentController extends Controller
         $form->hidden('task_id', '任务id')->value($taskid);
         $form->hidden('user_uuid','用户id')->value(Admin::user()->uuid);
         $form->hidden('formuser','用户名')->value(Admin::user()->name);
-        $form->hidden('touser','回复人')->value($task->user_uuid);
+        $form->hidden('touser','回复人')->value($user_uuid);
         $form->textarea('content','内容')->rules('required|max:255')->rows(1);
         $form->file('file','附件')->uniqueName();
         $form->saved(function (Form $form) {
@@ -302,4 +303,5 @@ class CommentController extends Controller
         });
         return $form;
     }
+    
 }
