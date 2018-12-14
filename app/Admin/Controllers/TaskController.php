@@ -91,7 +91,7 @@ class TaskController extends Controller
 
               $row->column(2,"");
           
-              $row->column(8, "<a class='btn btn-info' href='http://mifengjf.com/uploads/files/temple.csv' target='_blank'>下载模板</a><br>注意：1.文件必须是.csv格式；<br>2.文件第一行字段名称不可更改;<br>3.文件内容不可包含英语逗号(,)");
+              $row->column(8, "<a class='btn btn-info' href='http://mifengjf.com/uploads/files/temple.csv' target='_blank'>下载模板</a><br>注意：1.文件必须是.csv格式；<br>2.文件第一行字段名称不可更改;<br>3.文件内容不可包含英文逗号(,)<br>");
           })
             ->row($this->uploadtask());
     }

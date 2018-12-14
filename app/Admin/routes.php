@@ -9,7 +9,6 @@ Route::group([
     'namespace'     => config('admin.route.namespace'),
     'middleware'    => config('admin.route.middleware'),
 ], function (Router $router) {
-    $router->resource('comments', 'CommentController');
     $router->resource('store', 'StoreController');
     $router->resource('express', 'ExpressController');
     $router->resource('wandian', 'WandianController');
@@ -32,6 +31,7 @@ Route::group([
       $router->resource('infos', 'UinfosController');
       $router->resource('qtype', 'QuestionController');
     });
+    $router->resource('comments', 'CommentController');
     //$router->resource('hall', 'TaskController');
     
 });

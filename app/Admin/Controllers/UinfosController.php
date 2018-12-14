@@ -86,12 +86,13 @@ class UinfosController extends Controller
         $grid->name('用户名');
         $grid->email('邮箱');
         $grid->store('网点');
-        $grid->etype('快递商家');
+        $grid->etype('快递公司');
         $grid->qq('QQ');
-        $grid->tasks('投诉次数')->display(function ($tasks) {
-            //$count = count($tasks);
-            return "<span class='label label-warning'>{$tasks}</span>";
-        });
+        $grid->tel('联系方式');
+        // $grid->tasks('投诉次数')->display(function ($tasks) {
+        //     //$count = count($tasks);
+        //     return "<span class='label label-warning'>{$tasks}</span>";
+        // });
         // $grid->email_verified_at('Email verified at');
         // $grid->password('Password');
         // $grid->remember_token('Remember token');
@@ -120,7 +121,7 @@ class UinfosController extends Controller
         $show->name('用户名');
         $show->email('邮箱');
         $show->store('网点');
-        $show->etype('快递商家');
+        $show->etype('快递公司');
         $show->qq('QQ');
         $show->uptasks('投诉次数');
         // $show->email_verified_at('Email verified at');
