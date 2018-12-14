@@ -48,6 +48,9 @@ class CreateTasks
                         $temp['created_at'] = $now;
                         $temp['updated_at'] = $now;
                         break;
+                    // case " ":
+                    //     $temp[$head[$k]] = " ";
+                    break;
                     // case '快递单号':
                     //     $temp['eid'] = time();
                     //     break;

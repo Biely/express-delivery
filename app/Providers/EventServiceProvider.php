@@ -20,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\UploadDatas' => [
             'App\Listeners\CreateTasks',
+        ],
+        'App\Events\UploadKf' => [
+            'App\Listeners\CreateOrders',
         ]
     ];
 

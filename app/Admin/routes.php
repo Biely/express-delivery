@@ -32,6 +32,8 @@ Route::group([
       $router->resource('qtype', 'QuestionController');
     });
     $router->resource('comments', 'CommentController');
+    $router->resource('plan', 'TaskOrderController');
+    $router->post('savekf','TaskOrderController@savekf')->name('savekf');
     // $router->post('storecommt', 'CommentController@sform')->name('storecomment');
     //$router->resource('hall', 'TaskController');
     

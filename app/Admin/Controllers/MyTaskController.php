@@ -105,7 +105,14 @@ class MyTaskController extends Controller
           return $data['name'];
       });
       $grid->uname('投诉人');
-      $grid->qq('联系方式');
+      $grid->qq('QQ')->display(function($qq){
+        if($qq!=null){
+          $w = $qq.'<a href="http://wpa.qq.com/msgrd?v=3&uin='.$qq.'&site=qq&menu=yes" target="_blank" class="btn btn-xs btn-info">发起聊天</a>';
+        }else{
+          $w = '无';
+        }
+        return $w;
+      });
       $grid->times('投诉次数')->sortable();
       $grid->content('内容')->display(function($content) {
           return str_limit($content, 30, '...');
@@ -147,7 +154,14 @@ class MyTaskController extends Controller
         });
         $show->content('问题描述');
         $show->uname('投诉人');
-        $show->qq('联系方式');
+        $show->qq('联系方式')->unescape()->as(function($qq){
+          if($qq!=null){
+            $w = $qq.'<a href="http://wpa.qq.com/msgrd?v=3&uin='.$qq.'&site=qq&menu=yes" target="_blank" class="btn btn-xs btn-info">发起聊天</a>';
+          }else{
+            $w = '无';
+          }
+          return $w;
+        });
         $show->times('投诉次数');
         $show->created_at('发布时间');
         $show->deadline('完结期限')->as(function ($deadline) {

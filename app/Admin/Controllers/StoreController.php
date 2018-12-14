@@ -159,7 +159,14 @@ class StoreController extends Controller
             return $data['name'];
         });
         $grid->uname('投诉人');
-        $grid->qq('QQ');
+        $grid->qq('QQ')->display(function($qq){
+          if($qq!=null){
+            $w = $qq.'<a href="http://wpa.qq.com/msgrd?v=3&uin='.$qq.'&site=qq&menu=yes" target="_blank" class="btn btn-xs btn-info">发起聊天</a>';
+          }else{
+            $w = '无';
+          }
+          return $w;
+        });
         $grid->tel('联系方式');
         $grid->times('投诉次数')->sortable();
         $grid->content('内容')->display(function($content) {
@@ -240,7 +247,14 @@ class StoreController extends Controller
        });
        $show->content('问题描述');
        $show->uname('投诉人');
-       $show->qq('QQ');
+       $show->qq('联系方式')->unescape()->as(function($qq){
+        if($qq!=null){
+          $w = $qq.'<a href="http://wpa.qq.com/msgrd?v=3&uin='.$qq.'&site=qq&menu=yes" target="_blank" class="btn btn-xs btn-info">发起聊天</a>';
+        }else{
+          $w = '无';
+        }
+        return $w;
+      });
        $show->tel('联系人');
        $show->times('投诉次数');
        $show->created_at('发布时间');

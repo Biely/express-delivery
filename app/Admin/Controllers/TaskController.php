@@ -174,7 +174,14 @@ class TaskController extends Controller
             return $data['name'];
         });
         $grid->uname('投诉人');
-        $grid->qq('QQ');
+        $grid->qq('QQ')->display(function($qq){
+          if($qq!=null){
+            $w = $qq.'<a href="http://wpa.qq.com/msgrd?v=3&uin='.$qq.'&site=qq&menu=yes" target="_blank" class="btn btn-xs btn-info">发起聊天</a>';
+          }else{
+            $w = '无';
+          }
+          return $w;
+        });
         $grid->tel('联系方式');
         $grid->times('投诉次数')->sortable();
         $grid->content('内容')->display(function($content) {
@@ -270,7 +277,14 @@ class TaskController extends Controller
           return $data['name'];
         });
         $show->uname('投诉人');
-        $show->qq('联系方式');
+        $show->qq('联系方式')->unescape()->as(function($qq){
+          if($qq!=null){
+            $w = $qq.'<a href="http://wpa.qq.com/msgrd?v=3&uin='.$qq.'&site=qq&menu=yes" target="_blank" class="btn btn-xs btn-info">发起聊天</a>';
+          }else{
+            $w = '无';
+          }
+          return $w;
+        });
         $show->times('投诉次数');
         $show->sname('负责客服')->as(function ($sname) {
           if($sname==null){
@@ -375,6 +389,7 @@ class TaskController extends Controller
         foreach (Task::find($request->input('ids')) as $post) {
             $post->sid = $request->input('action');
             $post->sname = $request->input('sname');
+            $post->sqq = Admin::user()->qq;
             $post->isok = 1;
             $post->save();
         }
@@ -385,6 +400,7 @@ class TaskController extends Controller
       $post=Task::find($request->input('id'));
       $post->sid = $request->input('sid');
       $post->sname = $request->input('sname');
+      $post->sqq = Admin::user()->qq;
       $post->isok = 1;
       $post->save();
       return "success";
