@@ -268,7 +268,11 @@ class TaskController extends Controller
     protected function detail($id)
     {
         $show = new Show(Task::findOrFail($id));
-
+        // $show->panel()
+        // ->tools(function ($tools) {
+        //     $tools->disableEdit();
+        //     $tools->disableDelete();
+        // });
         $show->id('工单ID');
         $show->eid('快递单号');
         $show->etype('快递类型');
@@ -371,7 +375,7 @@ class TaskController extends Controller
           $comments->filter(function ($filter) {
               $filter->like('content');
           });
-      });
+        });
         return $show;
     }
 
