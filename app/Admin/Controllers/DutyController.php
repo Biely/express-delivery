@@ -9,6 +9,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Encore\Admin\Facades\Admin;
 use Illuminate\Support\Facades\Storage;
 
 class DutyController extends Controller
@@ -298,7 +299,21 @@ class DutyController extends Controller
         ];
     
         $form->select('isduty', '是否有责')->options($directors);
-    
+        $form->saving(function (Form $form) {
+            //...
+          foreach ($Admin::user()->roles as $key => $role) {
+            # code...
+            if($role == 8){
+              if($form->isduty == 0){
+                $error = new MessageBag([
+                  'title'   => '您没有更高权限',
+                  'message' => '不可多次修改工单状态',
+              ]);
+                return back()->with(compact('error'));
+              }
+            }
+          }
+        });
 
         return $form;
     }
