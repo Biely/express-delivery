@@ -13,11 +13,15 @@
       <input type="text" id="disabledTextInput" class="form-control" value="{{ Auth::user()->qq }}">
     </div>
     <div class="form-group">
+      <label for="disabledTextInput">手机号</label>
+      <input type="text" id="disabledTextInput" class="form-control" value="{{ Auth::user()->tel }}">
+    </div>
+    <div class="form-group">
       <label for="disabledTextInput">网点</label>
       <input type="text" id="disabledTextInput" class="form-control" value="{{ Auth::user()->store }}">
     </div>
     <div class="form-group">
-      <label for="disabledTextInput">快递商家</label>
+      <label for="disabledTextInput">快递公司</label>
       <input type="text" id="disabledTextInput" class="form-control" value="{{ Auth::user()->etype }}">
     </div>
   </fieldset>

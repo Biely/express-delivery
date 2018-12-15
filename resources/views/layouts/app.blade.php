@@ -63,7 +63,7 @@
                                   </form>
                             </li>
                             <li class="nav-item">
-                              <a class="nav-link" href="{{ route('subtask.create') }}"><span class="far fa-edit" aria-hidden="true"></span>提交工单</a>
+                              <a class="nav-link" href="{{ route('subtask.create') }}"><span class="far fa-edit" aria-hidden="true"></span>发布工单</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

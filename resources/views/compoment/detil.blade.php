@@ -40,12 +40,28 @@
                   <label for="disabledTextInput">处理期限</label>
                   <input type="text" id="disabledTextInput" class="form-control" value="{{ date('Y-m-d H:i:s',$task->deadline) }}">
                 </div>
+                {{--  <div class="form-group col-md-6">
+                  <label for="disabledTextInput">负责客服</label>
+                  <input type="text" id="disabledTextInput" class="form-control" value="{{ $task->sname }}">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="disabledTextInput">QQ</label>
+                  <a href="http://wpa.qq.com/msgrd?v=3&uin={{ $task->sqq }}&site=qq&menu=yes" target="_blank" class="form-control btn btn-info" role="button" aria-pressed="true" >{{ $task->sqq }}发起聊天</a>
+                </div>  --}}
+                <div class="form-group col-md-12">
+                  <label for="disabledTextInput">客服处理意见</label>
+                  <textarea id="disabledTextInput" class="form-control" value="">{{ $task->bz }}</textarea>
+                </div>
               </div>
             </fieldset>
             @if($task->isok == '0')
               <a href="{{ route('subtask.edit',$task->id) }}" class="btn btn-primary" role="button" aria-pressed="true" >修改</a>
+            @elseif($task->isok == 1)
+            <a href="http://wpa.qq.com/msgrd?v=3&uin={{ $task->sqq }}&site=qq&menu=yes" target="_blank" class="btn btn-success" role="button" aria-pressed="true" >发起聊天</a>
+
             @elseif($task->isok > 1)
-               <example-component v-bind:task="{{ $task }}" v-bind:turl="'{{ route('moretask',$task->id) }}'" v-bind:rurl="'{{ route('score',$task->id) }}'"></example-component>
+            
+            <example-component v-bind:task="{{ $task }}" v-bind:turl="'{{ route('moretask',$task->id) }}'" v-bind:rurl="'{{ route('score',$task->id) }}'"></example-component>
             @endif
         </div>
     </div>

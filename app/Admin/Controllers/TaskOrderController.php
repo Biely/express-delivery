@@ -155,7 +155,7 @@ class TaskOrderController extends Controller
         return $form->render();
       }
   
-      public function savetkf(Request $request){
+      public function savekf(Request $request){
         $this->validate($request, [
           'file' => ['required', 'string', 'max:255']
         ]);
@@ -170,6 +170,6 @@ class TaskOrderController extends Controller
           //dump($head);
         });
         admin_toastr('导入成功', 'success');
-        return redirect()->route('alltasks.index');
+        return redirect()->route('plan.index');
       }
 }

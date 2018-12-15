@@ -30,28 +30,29 @@
     </div>
 
     <div class="form-group row">
-        <label for="store" class="col-md-2 col-form-label text-md-right">{{ __('快递网点') }}</label>
+        <label for="tel" class="col-md-4 col-form-label text-md-right">{{ __('手机号') }}</label>
 
-        <div class="col-md-10">
-            <input id="store" type="text" class="form-control{{ $errors->has('store') ? ' is-invalid' : '' }}" name="store" value="{{ old('store',Auth::user()->store) }}" required>
+        <div class="col-md-6">
+            <input id="tel" type="text" class="form-control{{ $errors->has('tel') ? ' is-invalid' : '' }}" name="tel" value="{{ old('tel') }}" required>
 
-            @if ($errors->has('store'))
+            @if ($errors->has('tel'))
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('store') }}</strong>
+                    <strong>{{ $errors->first('tel') }}</strong>
                 </span>
             @endif
         </div>
     </div>
-
+    
     <div class="form-group row">
-        <label for="etype" class="col-md-2 col-form-label text-md-right">{{ __('快递商家') }}</label>
+        <label for="etype" class="col-md-2 col-form-label text-md-right">{{ __('快递公司') }}</label>
 
         <div class="col-md-10">
           <select id="etype" class="form-control{{ $errors->has('etype') ? ' is-invalid' : '' }}" name="etype">
-            <option value="中通快递" {{ old('etype',Auth::user()->etype) == "中通快递" ? 'selected' : '' }}>中通快递</option>
-            <option value="圆通快递" {{ old('etype',Auth::user()->etype) == "圆通快递" ? 'selected' : '' }}>圆通快递</option>
-            <option value="韵达快递" {{ old('etype',Auth::user()->etype) == "韵达快递" ? 'selected' : '' }}>韵达快递</option>
+            @foreach (elists() as $elist)
+                <option value="{{ $elist->name }}">{{ $elist->name }}</option>
+            @endforeach
           </select>
+          
             @if ($errors->has('etype'))
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $errors->first('etype') }}</strong>
@@ -60,6 +61,24 @@
         </div>
     </div>
 
+    <div class="form-group row">
+        <label for="store" class="col-md-2 col-form-label text-md-right">{{ __('快递网点') }}</label>
+
+        <div class="col-md-10">
+            <select id="store" class="form-control{{ $errors->has('store') ? ' is-invalid' : '' }}" name="store">
+                @foreach (wdlist() as $store)
+                    <option value="{{ $store->name }}">{{ $store->name }}</option>
+                @endforeach
+              </select>
+                @if ($errors->has('store'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('store') }}</strong>
+                    </span>
+                @endif
+        </div>
+    </div>
+
+    
     <div class="form-group row mb-0">
         <div class="col-md-10 offset-md-2">
             <button type="submit" class="btn btn-primary">

@@ -283,7 +283,6 @@ class ExpressController extends Controller
           }
           return $w;
         });
-        $show->file('处理凭证')->file();
         $show->score('评价')->unescape()->as(function ($score) {
           if($score == null){
             return '无';
@@ -296,7 +295,21 @@ class ExpressController extends Controller
             return $str;
           }
         });
-        $show->divider();
+        $show->bz('客服备注');
+        $show->file('处理凭证')->unescape()->as(function ($file) {
+          $html ="";
+          if(is_array($file)){
+            foreach ($file as $key => $f) {
+              # code...
+              $disk = config('admin.upload.disk');
+              if (config("filesystems.disks.{$disk}")) {
+                  $src = Storage::disk($disk)->url($f);
+                  $html .= "<img src='$src' style='max-width:200px;max-height:200px' class='img' />";
+              }
+            }
+          }
+          return $html;
+        });
         $show->comments('评论', function ($comments) {
 
           $comments->resource('/admin/comments');
@@ -351,7 +364,9 @@ class ExpressController extends Controller
        });
        $form->hidden('deadline','完结期限');
        $form->hidden('isok','是否完结')->value();
-       $form->file('file','完结凭证')->uniqueName();
+       $form->multipleFile('file','完结凭证')->removable()->uniqueName()->rules('required');
+        //$form->file('file','完结凭证');
+        $form->textarea('bz', '备注');
        $form->saving(function (Form $form) {
          if($form->deadline<time()){
            $form->isok=2;

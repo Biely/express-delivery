@@ -18,4 +18,16 @@ class Task extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function setFileAttribute($image)
+    {
+        if (is_array($image)) {
+            $this->attributes['file'] = json_encode($image);
+        }
+    }
+
+    public function getFileAttribute($image)
+    {
+        return json_decode($image, true);
+    }
 }

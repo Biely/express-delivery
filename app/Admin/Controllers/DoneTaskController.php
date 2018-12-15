@@ -11,6 +11,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Encore\Admin\Facades\Admin;
+use Illuminate\Support\Facades\Storage;
 
 class DoneTaskController extends Controller
 {
@@ -168,13 +169,13 @@ class DoneTaskController extends Controller
       $show->uname('投诉人');
       $show->qq('QQ')->unescape()->as(function($qq){
         if($qq!=null){
-          $w = $qq.'<a href="http://wpa.qq.com/msgrd?v=3&uin='.$qq.'&site=qq&menu=yes" target="_blank" class="btn btn-xs btn-info">发起聊天</a>';
+          $w = $qq.'-<a href="http://wpa.qq.com/msgrd?v=3&uin='.$qq.'&site=qq&menu=yes" target="_blank" class="btn btn-xs btn-info">发起聊天</a>';
         }else{
           $w = '无';
         }
         return $w;
       });
-      $show->tel('手机号');
+      $show->tel('联系方式');
       $show->times('投诉次数');
       $show->created_at('发布时间');
       $show->deadline('完结期限')->as(function ($deadline) {
@@ -204,7 +205,6 @@ class DoneTaskController extends Controller
         }
         return $w;
       });
-      $show->file('处理凭证')->file();
       $show->score('评价')->unescape()->as(function ($score) {
         if($score == null){
           return '无';
@@ -217,6 +217,23 @@ class DoneTaskController extends Controller
           return $str;
         }
       });
+      $show->bz('客服备注');
+      $show->file('处理凭证')->unescape()->as(function ($file) {
+        $html ="";
+        if(is_array($file)){
+          foreach ($file as $key => $f) {
+            # code...
+            $disk = config('admin.upload.disk');
+            if (config("filesystems.disks.{$disk}")) {
+                $src = Storage::disk($disk)->url($f);
+                $html .= "<img src='$src' style='max-width:200px;max-height:200px' class='img' />";
+            }
+          }
+        }
+        
+        return $html;
+      });
+      
       $show->comments('评论', function ($comments) {
 
         $comments->resource('/admin/comments');

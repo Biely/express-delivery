@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Qtype;
 use App\Models\Task;
+use App\Models\TaskOrder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 use Log;
@@ -61,6 +62,15 @@ class SubTaskController extends Controller
         $deadline = getDeadline($qdata['seconds']);
         $user = Auth::user();
         $task = new Task;
+        $edata = TaskOrder::where('eid',$data['eid'])->first();
+        if(!$edata->isEmpty()){
+          $sdata = $edata->adminuser;
+          if(!$sdata->isEmpty()){
+            $task->sid = $sdata->uuid;
+            $task->sname = $sdata->name;
+            $task->isok = 1;
+          }
+        }
         $task->eid = $data['eid'];
         $task->qtype = $data['qtype'];
         $task->etype = $user->etype;
