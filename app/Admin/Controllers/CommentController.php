@@ -178,6 +178,12 @@ class CommentController extends Controller
         $grid->model()->orderBy('id', 'desc');
         // $grid->id('Id')->sortable();
         $grid->task_id('工单id')->sortable();
+        $grid->task()->eid('快递单号');
+        $grid->task()->etype('快递公司');
+        $grid->task()->qtype('问题类型')->display(function ($qtype){
+          $data = getQdata($qtype);
+            return $data['name'];
+        });
         $grid->formuser('评论人');
         $grid->content('内容');
         $grid->created_at('发布时间')->display(function ($created_at){
