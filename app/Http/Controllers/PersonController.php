@@ -21,7 +21,7 @@ class PersonController extends Controller
     public function index()
     {
         //$qtypes = collect(getQtypes());
-        return view('person',['action' => 'index']);
+        return view('person',['action' => 'index','count'=>taskcount(Auth::user()->uuid)]);
 
     }
 
