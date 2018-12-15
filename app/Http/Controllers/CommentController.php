@@ -48,7 +48,9 @@ class CommentController extends Controller
         $data = $request->all();
         $user = Auth::user();
         $comment->task_id = $data['task_id'];
+        $comment->usertype = 0;
         $comment->content = e($data['content']);
+        $comment->touser = $data['touser'];
         $comment->user_uuid = $user->uuid;
         $comment->formuser = $user->name;
         if($comment->save()){

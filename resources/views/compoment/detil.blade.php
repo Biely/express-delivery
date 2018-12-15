@@ -80,6 +80,7 @@
           {{ csrf_field() }}
           <div class="form-group">
             <input type="hidden" name="task_id" value="{{ $task->id }}">
+            <input type="hidden" name="touser" value="{{ $task->sid }}">
             <textarea type="text" class="form-control{{ $errors->has('content') ? ' is-invalid' : '' }}" id="comment" name="content" placeholder="输入评论..">{{ old('content') }}</textarea>
             @if ($errors->has('content'))
                 <span class="invalid-feedback" role="alert">

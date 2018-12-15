@@ -24,6 +24,7 @@ use Encore\Admin\Layout\Row;
 use Carbon\Carbon;
 use App\Admin\Extensions\ExcelExpoter;
 use App\Events\UploadDatas;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -268,11 +269,11 @@ class TaskController extends Controller
     protected function detail($id)
     {
         $show = new Show(Task::findOrFail($id));
-        // $show->panel()
-        // ->tools(function ($tools) {
-        //     $tools->disableEdit();
-        //     $tools->disableDelete();
-        // });
+        $show->panel()
+        ->tools(function ($tools) {
+            $tools->disableEdit();
+            $tools->disableDelete();
+        });
         $show->id('工单ID');
         $show->eid('快递单号');
         $show->etype('快递类型');

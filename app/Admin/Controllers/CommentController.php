@@ -14,6 +14,7 @@ use Encore\Admin\Facades\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 //use App\Admin\Controllers\TaskController;
 
 class CommentController extends Controller
@@ -254,7 +255,6 @@ class CommentController extends Controller
             }
             return $w;
           });
-          $task->file('处理凭证')->file();
           $task->score('评价')->unescape()->as(function ($score) {
             if($score == null){
               return '无';
@@ -266,6 +266,22 @@ class CommentController extends Controller
               }
               return $str;
             }
+          });
+          $task->bz('客服备注');
+          $task->file('处理凭证')->unescape()->as(function ($file) {
+            $html ="";
+            if(is_array($file)){
+              foreach ($file as $key => $f) {
+                # code...
+                $disk = config('admin.upload.disk');
+                if (config("filesystems.disks.{$disk}")) {
+                    $src = Storage::disk($disk)->url($f);
+                    $html .= "<img src='$src' style='max-width:200px;max-height:200px' class='img' />";
+                }
+              }
+            }
+            
+            return $html;
           });
         });
         $show->task_id('工单id');
@@ -293,6 +309,7 @@ class CommentController extends Controller
         }
         $form->setTitle('回复评论');
         $form->hidden('task_id', '任务id')->value($taskid);
+        $form->hidden('usertype', '用角色')->value(Admin::user()->roles[0]->id);
         $form->hidden('user_uuid','用户id')->value(Admin::user()->uuid);
         $form->hidden('formuser','用户名')->value(Admin::user()->name);
         $form->hidden('touser','回复人')->value($user_uuid);

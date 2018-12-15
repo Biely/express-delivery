@@ -9,6 +9,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\Storage;
 
 class DutyController extends Controller
 {
@@ -173,7 +174,15 @@ class DutyController extends Controller
           return $data['name'];
         });
         $show->uname('投诉人');
-        $show->qq('联系方式');
+        $show->qq('QQ')->unescape()->as(function($qq){
+          if($qq!=null){
+            $w = $qq.'-<a href="http://wpa.qq.com/msgrd?v=3&uin='.$qq.'&site=qq&menu=yes" target="_blank" class="btn btn-xs btn-info">发起聊天</a>';
+          }else{
+            $w = '无';
+          }
+          return $w;
+        });
+        $show->tel('手机号');
         $show->times('投诉次数');
         $show->sname('负责客服')->as(function ($sname) {
           if($sname==null){
@@ -210,6 +219,14 @@ class DutyController extends Controller
           }
           return $w;
         });
+        $show->isduty("是否有责")->as(function ($isduty){
+          if($isduty == 1) {
+            return "是";
+          }else{
+            return "否";
+          }
+        });
+        $show->content('问题描述');
         $show->score('评价')->unescape()->as(function ($score) {
           if($score == null){
             return '无';
@@ -222,15 +239,22 @@ class DutyController extends Controller
             return $str;
           }
         });
-        $show->isduty("是否有责")->as(function ($isduty){
-          if($isduty == 1) {
-            return "是";
-          }else{
-            return "否";
+        $show->bz('客服备注');
+        $show->file('处理凭证')->unescape()->as(function ($file) {
+          $html ="";
+          if(is_array($file)){
+            foreach ($file as $key => $f) {
+              # code...
+              $disk = config('admin.upload.disk');
+              if (config("filesystems.disks.{$disk}")) {
+                  $src = Storage::disk($disk)->url($f);
+                  $html .= "<img src='$src' style='max-width:200px;max-height:200px' class='img' />";
+              }
+            }
           }
+          
+          return $html;
         });
-        $show->content('问题描述');
-        $show->file('处理凭证')->file();
         return $show;
     }
 

@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Carbon\Carbon;
+use App\Models\Comment;
+use App\Observers\CommentsObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Carbon::setLocale('zh');
+        Comment::observe(CommentsObserver::class);
     }
 
     /**

@@ -34,6 +34,7 @@ Route::group([
     $router->resource('comments', 'CommentController');
     $router->resource('plan', 'TaskOrderController');
     $router->post('savekf','TaskOrderController@savekf')->name('savekf');
+    $router->resource('notifi', 'NotificationController', ['only' => ['index']]);
     // $router->post('storecommt', 'CommentController@sform')->name('storecomment');
     //$router->resource('hall', 'TaskController');
     

@@ -27,4 +27,17 @@
       </ul>
     </div>
   </div>
+  <div class="card mt-2">
+      <div class="card-header">
+          我的通知
+        </div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        <a href="{{ route('notifications.index') }}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action ">
+          最新评论
+          <span class="badge badge-danger badge-pill">{{ Auth::user()->notification_count }}</span>
+        </a>
+      </ul>
+    </div>
+  </div>
 </div>

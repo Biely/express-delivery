@@ -35,6 +35,10 @@ class HomeController extends Controller
         return view('home',compact('user','tasks','count'));
     }
 
+    public function news(){
+
+    }
+
     public function waitodo(Request $request){
       $user = Auth::user();
       $tasks = Task::where('user_uuid',$user->uuid)->where('isok','0')->paginate(10);
@@ -94,5 +98,21 @@ class HomeController extends Controller
       }else{
         return view('home',compact('user','tasks','s','count'));
       }
+    }
+
+    public function notif(Request $request)
+    {
+        // 获取登录用户的所有通知
+        $user = User::find(Auth::user()->id);
+        $count = taskcount(Auth::user()->uuid);
+        $this->isshangban($request);
+        $data =  $request->all();
+        $notifications = $user->unreadNotifications()->paginate(20);
+        if($notifications->count()==0){
+          $notifications = $user->notifications()->paginate(20);
+        }else{
+          $user->markAsRead();
+        }
+        return view('notification', compact('notifications','count','user'));
     }
 }

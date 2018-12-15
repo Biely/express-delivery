@@ -32,3 +32,4 @@ Route::post('searchtasks','HomeController@search')->name('searchtask');
 Route::get('searchtasks', function () {
     return redirect('/home');
 });
+Route::get('notifications', 'HomeController@notif')->name('notifications.index');
