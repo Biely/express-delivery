@@ -63,7 +63,7 @@ class SubTaskController extends Controller
         $user = Auth::user();
         $task = new Task;
         $edata = TaskOrder::where('eid',$data['eid'])->first();
-        if(!$edata->isEmpty()){
+        if(!isset($edata->id)){
           $sdata = $edata->adminuser;
           if(!$sdata->isEmpty()){
             $task->sid = $sdata->uuid;
