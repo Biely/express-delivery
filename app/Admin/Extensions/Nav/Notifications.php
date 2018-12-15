@@ -12,9 +12,15 @@ class notifications
 
     public function __construct()
     {
-        $this->user = AdminUser::find(Admin::user()->id);
-        $this->notifications = $this->user->unreadNotifications()->count();
-        $this->url = route('notifi.index');
+        if(isset(Admin::user()->id)){
+            $this->user = AdminUser::find(Admin::user()->id);
+            $this->notifications = $this->user->unreadNotifications()->count();
+            $this->url = route('notifi.index');
+        }else{
+            $this->notifications = 0;
+            $this->url = "#";
+        }
+        
     }
 
     public function __toString()
