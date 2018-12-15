@@ -8,7 +8,7 @@ class Comment extends Model
 {
   public function task()
   {
-      return $this->belongsTo(Task::class,'id','task_id');
+      return $this->belongsTo(Task::class,'task_id','id');
   }
 
   public function user()
