@@ -91,6 +91,7 @@ class PersonController extends Controller
         $user->store = $data['store'];
         $user->etype = $data['etype'];
         $user->qq = $data['qq'];
+        $user->tel = $data['tel'];
         if($user->save()){
           return redirect()->route('person.index')->with('status', '修改成功。');
         }else{
