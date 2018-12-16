@@ -303,7 +303,7 @@ class DutyController extends Controller
             //...
           foreach (Admin::user()->roles as $key => $role) {
             # code...
-            if($role == 8){
+            if($role->id == 8){
               if($form->isduty == 0){
                 $error = new MessageBag([
                   'title'   => '您没有更高权限',
