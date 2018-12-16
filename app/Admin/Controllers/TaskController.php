@@ -161,7 +161,7 @@ class TaskController extends Controller
         $grid->tools(function ($tools) {
             $tools->batch(function ($batch) {
                 $sid = "'".Admin::user()->uuid."'";
-                $sname = "'".Admin::user()->username."'";
+                $sname = "'".Admin::user()->name."'";
                 //$batch->disableDelete();
                 $batch->add('领取任务', new TasksGet($sid,$sname));
             });
@@ -243,7 +243,7 @@ class TaskController extends Controller
            $actions->append("<a class='btn btn-xs btn-info' href=".route('alltasks.show',$actions->row->id).">查看详情</a>");
           if($actions->row->isok == 0){
             $sid = "'".Admin::user()->uuid."'";
-            $sname = "'".Admin::user()->username."'";
+            $sname = "'".Admin::user()->name."'";
             $actions->append(new TaskGet($actions->getKey(),$sid,$sname));
           }
 

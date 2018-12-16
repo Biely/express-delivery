@@ -35,7 +35,6 @@ class HomeController extends Controller
                     <div class="icon">
                       <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">更多信息 <i class="fa fa-arrow-circle-right"></i></a>
                   <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>');
                 });
 
@@ -49,7 +48,6 @@ class HomeController extends Controller
                     <div class="icon">
                       <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">更多信息 <i class="fa fa-arrow-circle-right"></i></a>
                   </div>');
                 });
                 $row->column(3, function (Column $column) use($waittoget){
@@ -62,7 +60,6 @@ class HomeController extends Controller
                     <div class="icon">
                       <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">更多信息 <i class="fa fa-arrow-circle-right"></i></a>
                   </div>');
                 });
                 $row->column(3, function (Column $column) use($nodo){
@@ -75,7 +72,7 @@ class HomeController extends Controller
                     <div class="icon">
                       <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">更多信息 <i class="fa fa-arrow-circle-right"></i></a>
+                    <!-- <a href="#" class="small-box-footer">更多信息 <i class="fa fa-arrow-circle-right"></i></a> -->
                   </div>');
                 });
             });
