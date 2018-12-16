@@ -301,7 +301,7 @@ class DutyController extends Controller
         $form->select('isduty', '是否有责')->options($directors);
         $form->saving(function (Form $form) {
             //...
-          foreach ($Admin::user()->roles as $key => $role) {
+          foreach (Admin::user()->roles as $key => $role) {
             # code...
             if($role == 8){
               if($form->isduty == 0){
