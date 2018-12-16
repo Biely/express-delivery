@@ -305,11 +305,10 @@ class DutyController extends Controller
             # code...
             if($role->id == 8){
               if($form->isduty == 0){
-                $error = new MessageBag([
+                return [
                   'title'   => '您没有更高权限',
-                  'message' => '不可多次修改工单状态',
-              ]);
-                return back()->with(compact('error'));
+                  'message' => '您没有更高权限，不可多次修改工单状态',
+              ];
               }
             }
           }
