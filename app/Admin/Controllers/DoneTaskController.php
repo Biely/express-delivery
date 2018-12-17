@@ -92,9 +92,10 @@ class DoneTaskController extends Controller
            $filter->disableIdFilter();
            $filter->equal('eid','快递单号')->integer();
            $filter->equal('store','快递网点');
-           $filter->equal('etype','快递类型')->select(etype());
+           $filter->equal('etype','快递类型')->select(edatas());
            $filter->equal('qtype','问题类型')->select(qdataArry());
            $filter->between('created_at', '投诉时间')->datetime();
+           $filter->between('updated_at', '完成时间')->datetime();
        });
        $grid->disableCreateButton();
        $grid->id('工单ID')->sortable();

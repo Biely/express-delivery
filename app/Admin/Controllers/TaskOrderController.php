@@ -97,7 +97,7 @@ class TaskOrderController extends Controller
         $grid->filter(function($filter){
             $filter->disableIdFilter();
             $filter->equal('eid','快递单号')->integer();
-            $filter->equal('etype','公司')->select(etype());
+            $filter->equal('etype','快递公司')->select(edatas());
             $filter->equal('sname','客服名称');
             $filter->between('created_at', '导入时间')->datetime();
         });
