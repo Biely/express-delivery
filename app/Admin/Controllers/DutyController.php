@@ -58,7 +58,7 @@ class DutyController extends Controller
         return $content
             ->header('Edit')
             ->description('description')
-            ->body($this->form()->edit($id));
+            ->body($this->form(route('duty.update',$id))->edit($id));
     }
 
     /**
@@ -264,9 +264,12 @@ class DutyController extends Controller
      *
      * @return Form
      */
-    protected function form()
+    protected function form($action = null)
     {
         $form = new Form(new Task);
+        if($action != null){
+          $form->setAction($action);
+        }
         $form->tools(function (Form\Tools $tools) {
 
             // 去掉`列表`按钮
