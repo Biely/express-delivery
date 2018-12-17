@@ -118,6 +118,7 @@ class TaskController extends Controller
             $filter->equal('store','快递网点');
             $filter->equal('etype','快递类型')->select(etype());
             $filter->equal('qtype','问题类型')->select(qdataArry());
+            $filter->equal('sname','负责客服');
             $filter->between('created_at', '投诉时间')->datetime();
             $filter->where(function ($query) {
               switch ($this->input) {

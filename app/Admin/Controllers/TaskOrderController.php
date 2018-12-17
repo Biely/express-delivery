@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Encore\Admin\Show;
 use Encore\Admin\Layout\Row;
 use App\Events\UploadKf;
+use App\Admin\Extensions\ExcelExpoter;
 
 class TaskOrderController extends Controller
 {
@@ -93,12 +94,23 @@ class TaskOrderController extends Controller
     {
         $grid = new Grid(new TaskOrder);
 
+        $grid->filter(function($filter){
+            $filter->disableIdFilter();
+            $filter->equal('eid','快递单号')->integer();
+            $filter->equal('etype','公司')->select(etype());
+            $filter->equal('sname','客服名称');
+            $filter->between('created_at', '导入时间')->datetime();
+        });
         $grid->id('ID');
         $grid->eid('快递单号');
         $grid->sname('客服名称');
         $grid->etype('快递公司');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
+
+        // $grid->created_at('Created at');
+        $grid->updated_at('分配时间');
+        $excel = new ExcelExpoter();
+        $excel->setAttr([ '快递单号','快递公司','负责客服','导入时间'], ['eid','etype','sname','created_at']);
+        $grid->exporter($excel);
 
         return $grid;
     }

@@ -92,7 +92,46 @@ class DutyController extends Controller
             $filter->equal('store','快递网点');
             $filter->equal('etype','快递类型')->select(etype());
             $filter->equal('qtype','问题类型')->select(qdataArry());
+            $filter->equal('sname','负责客服');
             $filter->between('created_at', '投诉时间')->datetime();
+            $filter->where(function ($query) {
+              switch ($this->input) {
+                  case '0':
+                      // custom complex query if the 'yes' option is selected
+                      $query->where('isok',0);
+                      break;
+                  case '1':
+                      $query->where('isok',1);
+                      break;
+                  case '2':
+                      $query->where('isok',2);
+                      break;
+                  case '3':
+                      $query->whereRaw("`isok` <= 2 AND `deadline` <".time());
+                      break;
+                  case '4':
+                      $query->whereRaw("`isok` = 0 AND `deadline` <".time());
+                      break;
+                  case '5':
+                      $query->whereRaw("`isok` = 1 AND `deadline` <".time());
+                      break;
+                  case '6':
+                      $query->whereRaw("`isok` = 2 AND `deadline` <".time());
+                      break;
+                  case '7':
+                      $query->where('isok',3);
+                      break;
+              }
+          }, '工单状态', 'status')->select([
+              '0' => '待接单',
+              '1' => '处理中',
+              '2' => '已处理',
+              '3' => '已超时',
+              '4' => '待接单（已超时）',
+              '5' => '处理中（已超时）',
+              '6' => '已处理（已超时）',
+              '7' => '正常完成'
+          ]);
         });
         $grid->disableCreateButton();
         $grid->id('工单ID')->sortable();
