@@ -47,15 +47,15 @@
   <div class="card-body">
     <ul class="list-group list-group-flush">
       <a href="http://wpa.qq.com/msgrd?v=3&uin=2797714406&site=qq&menu=yes" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action ">
-        发起聊天
+        QQ:2797714406
         <span class="badge badge-success badge-pill">通道1</span>
       </a>
-      <a href="http://wpa.qq.com/msgrd?v=3&uin=2797714406&site=qq&menu=yes" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action ">
-        发起聊天
+      <a href="http://wpa.qq.com/msgrd?v=3&uin=3119154902&site=qq&menu=yes" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action ">
+        QQ:3119154902
         <span class="badge badge-success badge-pill">通道2</span>
       </a>
-      <a href="http://wpa.qq.com/msgrd?v=3&uin=2797714406&site=qq&menu=yes" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action ">
-        发起聊天
+      <a href="http://wpa.qq.com/msgrd?v=3&uin=2049187382&site=qq&menu=yes" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action ">
+        QQ:204918738
         <span class="badge badge-success badge-pill">通道3</span>
       </a>
     </ul>
