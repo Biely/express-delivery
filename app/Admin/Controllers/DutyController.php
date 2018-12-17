@@ -43,7 +43,7 @@ class DutyController extends Controller
             ->header('工单')
             ->description('详情')
             ->row($this->detail($id))
-            ->row($this->form()->edit($id));
+            ->row($this->form(route('duty.update',$id))->edit($id));
     }
 
     /**
@@ -58,7 +58,7 @@ class DutyController extends Controller
         return $content
             ->header('Edit')
             ->description('description')
-            ->body($this->form(route('duty.update',$id))->edit($id));
+            ->body($this->form()->edit($id));
     }
 
     /**
