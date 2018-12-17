@@ -320,7 +320,7 @@ class DutyController extends Controller
         });
         $form->saved(function (Form $form) {
           //...
-            admin_success('保存成功');
+            //admin_success('保存成功');
             return redirect('duty.index');
         });
         return $form;
