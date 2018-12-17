@@ -320,11 +320,8 @@ class DutyController extends Controller
         });
         $form->saved(function (Form $form) {
           //...
-          $success = new MessageBag([
-            'title'   => '',
-            'message' => '修改成功',
-        ]);
-            return redirect('duty.index')->with(compact('success'));
+            admin_success('保存成功');
+            return redirect('duty.index');
         });
         return $form;
     }
