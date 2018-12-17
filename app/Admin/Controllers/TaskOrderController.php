@@ -106,8 +106,8 @@ class TaskOrderController extends Controller
         $grid->sname('客服名称');
         $grid->etype('快递公司');
 
-        // $grid->created_at('Created at');
-        $grid->updated_at('分配时间');
+        $grid->created_at('分配时间');
+        //$grid->updated_at('分配时间');
         $excel = new ExcelExpoter();
         $excel->setAttr([ '快递单号','快递公司','负责客服','导入时间'], ['eid','etype','sname','created_at']);
         $grid->exporter($excel);
