@@ -3,7 +3,7 @@
     <el-row type="flex" class="row-bg" justify="end">
        <el-col :span="8">
          <el-button v-if="task.score == null" type="success" @click="dialogFormVisible = true">评价客服</el-button>
-         <el-button type="primary" @click="moretask()">再次投诉</el-button>
+         <el-button type="primary" @click="open3()">再次投诉</el-button>
        </el-col>
     </el-row>
     <el-dialog title="评价客服" :visible.sync="dialogFormVisible" width="25%">
@@ -59,19 +59,15 @@ export default {
           }
         })
      },
-     moretask(){
-       const loading = this.$loading({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
-        setTimeout(() => {
-          loading.close();
-        }, 2000);
-       axios.post(String(this.turl), {
-           params: {
-           }
+     open3() {
+        this.$prompt('请输入投诉理由', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /\s*\S+?/,
+          inputErrorMessage: '理由不能为空'
+        }).then(({ value }) => {
+          axios.post(String(this.turl), {
+             reason: value
          }).then((res) => {
            if(res.data.status === 'success') {
              this.$message({
@@ -86,7 +82,13 @@ export default {
              })
            }
          })
-     }
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消投诉'
+          });       
+        });
+      }
   }
 }
 </script>

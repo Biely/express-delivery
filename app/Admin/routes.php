@@ -35,6 +35,10 @@ Route::group([
     $router->resource('plan', 'TaskOrderController');
     $router->post('savekf','TaskOrderController@savekf')->name('savekf');
     $router->resource('notifi', 'NotificationController', ['only' => ['index']]);
+    $router->get('tasksdata', 'DataController@index')->name('tasksdata.index');
+    $router->post('tasksdata', 'DataController@doform')->name('tasksdata.post');
+    $router->post('killstore', 'WandianController@kill')->name('killstore');
+    $router->post('passstore', 'WandianController@kill')->name('passstore');
     // $router->post('storecommt', 'CommentController@sform')->name('storecomment');
     //$router->resource('hall', 'TaskController');
     

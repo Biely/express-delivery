@@ -17,7 +17,7 @@ class HomeController extends Controller
     
     public function __construct()
     {
-        $this->middleware('auth');
+      $this->middleware(['auth','canuse']);
     }
 
     /**
@@ -32,6 +32,7 @@ class HomeController extends Controller
         //dump($tasks);
         $count = taskcount($user->uuid);
         $this->isshangban($request);
+        //dump(Auth::user()->storeinfo);
         return view('home',compact('user','tasks','count'));
     }
 

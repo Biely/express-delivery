@@ -20,7 +20,7 @@ class SubTaskController extends Controller
 
     public function __construct()
     {
-       $this->middleware('auth');
+      $this->middleware(['auth','canuse']);
     }
 
     public function index()
@@ -102,7 +102,7 @@ class SubTaskController extends Controller
         $comments = $task->comments()->orderBy('created_at','desc')->paginate(5);
         $action = 'detil';
         $count = taskcount($user->uuid);
-        //dump($isok);
+        //dump();
         return view('taskdetil',compact('task','action','comments','count'));
     }
 
@@ -168,9 +168,10 @@ class SubTaskController extends Controller
     public function score(Request $request, Task $task,$id){
       $task=$task->findOrFail($id);
       $data = $request->all();
-      Log::info($data);
+      //Log::info($data);
       $task->score = $data['score'];
       if($task->save()){
+        $task->adminuser->updateScore($data['score']);
         return ['status' => 'success'];
       }else{
         return ['status' => 'fail'];
@@ -180,12 +181,14 @@ class SubTaskController extends Controller
     public function moretask(Request $request, Task $task,$id){
       $task=$task->findOrFail($id);
       $data = $request->all();
+      Log::info($data);
       $qdata = getQdata($task->qtype);
       $task->score = null;
+      $task->reason = e($data['reason']);
       $task->times = $task->times+1;
       $task->deadline = getDeadline($qdata['seconds']);
       $task->file = null;
-      $task->isok = 0;
+      $task->isok = 1;
       if($task->save()){
         return ['status' => 'success'];
       }else{

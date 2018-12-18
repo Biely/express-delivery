@@ -147,6 +147,9 @@ class DutyController extends Controller
         $grid->content('内容')->display(function($content) {
             return str_limit($content, 30, '...');
         });
+        $grid->reason('再次投诉原因')->display(function($reason) {
+          return str_limit($reason, 30, '...');
+        });
         $grid->created_at('投诉时间')->sortable();
         $grid->deadline('完结期限')->sortable()->display(function ($deadline) {
             //
@@ -268,6 +271,7 @@ class DutyController extends Controller
           }
         });
         $show->content('问题描述');
+        $show->reason('再次投诉原因');
         $show->score('评价')->unescape()->as(function ($score) {
           if($score == null){
             return '无';

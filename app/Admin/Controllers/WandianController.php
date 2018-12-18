@@ -9,6 +9,9 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Http\Request;
+use App\Admin\Extensions\Tools\KillStore;
+use App\Admin\Extensions\Tools\PassStore;
 
 class WandianController extends Controller
 {
@@ -85,8 +88,28 @@ class WandianController extends Controller
         $grid->name('网点名称');
         $grid->etype('快递公司');
         $grid->content('备注');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
+        $grid->status('网点状态')->display(function($status) {
+            if($status==0){
+                return "正常使用";
+            }else{
+                return "账号冻结";
+            }
+        });
+        $grid->actions(function ($actions) {
+            //Log::info($actions->row);
+            // $actions->disableEdit();
+            //  $actions->disableDelete();
+            //  $actions->disableView();
+            //  $actions->append("<a class='btn btn-xs btn-info' href=".route('alltasks.show',$actions->row->id).">查看详情</a>");
+            if($actions->row->status == 0){
+              $actions->append(new KillStore($actions->row->id));
+            }else{
+                $actions->append(new PassStore($actions->row->id));
+            }
+  
+          });
+        $grid->created_at('创建时间');
+        $grid->updated_at('更新时间');
 
         return $grid;
     }
@@ -105,6 +128,13 @@ class WandianController extends Controller
         $show->name('网点名称');
         $show->etype('快递公司');
         $show->content('备注');
+        $show->status('网点状态')->as(function ($status) {
+           if($status == 0){
+               return "正常使用";
+           }else{
+               return "账号冻结";
+           }
+        });
         $show->created_at('Created at');
         $show->updated_at('Updated at');
 
@@ -123,7 +153,15 @@ class WandianController extends Controller
         $form->text('name','网点名称');
         $form->select('etype','快递公司')->options(edatas());
         $form->textarea('content','备注')->rows(2);
-
+        $form->select('status','是否封禁')->options([0 => '否',1 => '是']);
         return $form;
+    }
+
+    public function kill(Request $request){
+        $store = Store::find($request->input('id'));
+        $store->status = $request->input('status');
+        if($store->save()){
+            return 'success';
+        }
     }
 }

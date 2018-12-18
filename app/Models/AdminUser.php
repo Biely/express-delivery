@@ -15,7 +15,7 @@ class AdminUser extends Model
 
     protected $table = 'admin_users';
 
-    protected $fillable = ['id','uuid', 'username', 'name' , 'qq' , 'tel', 'etype','notification_count'];
+    protected $fillable = ['id','uuid', 'username', 'name' , 'qq' , 'tel', 'etype','notification_count','score','ts','sumscore'];
     
     public function taskorder()
     {
@@ -25,6 +25,10 @@ class AdminUser extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }  
+    
+    public function tasks(){
+        return $this->hasMany(Task::class,'sid','uuid');
     }
 
     public function notify($instance)
@@ -43,5 +47,14 @@ class AdminUser extends Model
         $this->notification_count = 0;
         $this->save();
         $this->unreadNotifications->markAsRead();
+    }
+
+    public function updateScore($step){
+        $this->increment('sumscore',$step*20);
+        $this->increment('ts');
+        $this->save();
+        $this->score=$this->sumscore/$this->ts;
+        $this->save();
+        return $this;
     }
 }

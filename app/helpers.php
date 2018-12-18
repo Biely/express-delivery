@@ -135,7 +135,7 @@ function taskcount($user_uuid){
 }
 
 function wdlist(){
-  $wds = app()->make('App\Models\Store')->get();
+  $wds = app()->make('App\Models\Store')->where('status',0)->get();
   return $wds;
 }
 

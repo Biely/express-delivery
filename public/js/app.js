@@ -104386,33 +104386,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       });
     },
-    moretask: function moretask() {
+    open3: function open3() {
       var _this2 = this;
 
-      var loading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      });
-      setTimeout(function () {
-        loading.close();
-      }, 2000);
-      axios.post(String(this.turl), {
-        params: {}
-      }).then(function (res) {
-        if (res.data.status === 'success') {
-          _this2.$message({
-            message: '投诉成功！',
-            type: 'success'
-          });
-          location.reload();
-        } else {
-          _this2.$message({
-            message: '投诉失败！',
-            type: 'warning'
-          });
-        }
+      this.$prompt('请输入投诉理由', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /\s*\S+?/,
+        inputErrorMessage: '理由不能为空'
+      }).then(function (_ref) {
+        var value = _ref.value;
+
+        axios.post(String(_this2.turl), {
+          reason: value
+        }).then(function (res) {
+          if (res.data.status === 'success') {
+            _this2.$message({
+              message: '投诉成功！',
+              type: 'success'
+            });
+            location.reload();
+          } else {
+            _this2.$message({
+              message: '投诉失败！',
+              type: 'warning'
+            });
+          }
+        });
+      }).catch(function () {
+        _this2.$message({
+          type: 'info',
+          message: '取消投诉'
+        });
       });
     }
   }
@@ -104459,7 +104464,7 @@ var render = function() {
                   attrs: { type: "primary" },
                   on: {
                     click: function($event) {
-                      _vm.moretask()
+                      _vm.open3()
                     }
                   }
                 },

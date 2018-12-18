@@ -97,6 +97,7 @@ class TaskOrderController extends Controller
         $grid->filter(function($filter){
             $filter->disableIdFilter();
             $filter->equal('eid','快递单号')->integer();
+            $filter->equal('store','快递网点')->select(edatas());
             $filter->equal('etype','快递公司')->select(edatas());
             $filter->equal('sname','客服名称');
             $filter->between('created_at', '导入时间')->datetime();
@@ -109,7 +110,7 @@ class TaskOrderController extends Controller
         $grid->created_at('分配时间');
         //$grid->updated_at('分配时间');
         $excel = new ExcelExpoter();
-        $excel->setAttr([ '快递单号','快递公司','负责客服','导入时间'], ['eid','etype','sname','created_at']);
+        $excel->setAttr([ '快递单号','快递网点','快递公司','负责客服','导入时间'], ['eid','store','etype','sname','created_at']);
         $grid->exporter($excel);
 
         return $grid;
@@ -178,7 +179,7 @@ class TaskOrderController extends Controller
         //$excel = app()->make('excel');
         Excel::filter('chunk')->load($path)->chunk(250, function($results)
         {
-          $head = ['快递单号'=>'eid','快递公司'=>'etype','客服名称'=>'sname'];
+          $head = ['快递单号'=>'eid','快递网点'=>'store','快递公司'=>'etype','客服名称'=>'sname'];
           Event::fire(new UploadKf($results,$head));
           //dump($head);
         });

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\AdminUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,6 +18,11 @@ class Task extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function adminuser()
+    {
+        return $this->belongsTo(AdminUser::class,'sid','uuid');
     }
 
     public function setFileAttribute($image)
