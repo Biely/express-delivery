@@ -346,7 +346,7 @@ class StoreController extends Controller
         });
         $form->text('eid', '快递单号')->rules('required');
         $form->hidden('store', 'Store')->value(Admin::user()->name);
-        $form->select('etype','快递类型')->options(['中通快递' => '中通快递', '韵达快递' => '韵达快递', '圆通快递' => '圆通快递'])->rules('required');
+        $form->select('etype','快递类型')->options(edatas())->rules('required');
         $form->hidden('user_uuid','用户id')->value(Admin::user()->uuid);
         $form->hidden('uname', '用户名')->value(Admin::user()->name);
         $form->hidden('qq', 'QQ')->value(Admin::user()->qq);
