@@ -143,6 +143,20 @@ function elists(){
   $es = app()->make('App\Models\Elist')->get();
   return $es;
 }
+ 
+function storedatas($status = 0){
+  if($status){
+    $stores = app()->make('App\Models\Store')->get();
+  }else{
+    $stores = wdlist();
+  }
+  $row = [];
+  foreach ($stores as $key => $e) {
+    # code...
+    $row[$e->name] = $e->name;
+  }
+  return $row;
+}
 
 function edatas(){
   $es = elists();
