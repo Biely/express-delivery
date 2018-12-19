@@ -67,6 +67,7 @@ class SubTaskController extends Controller
           $sdata = $edata->adminuser;
           if(isset($sdata->uuid)){
             $task->sid = $sdata->uuid;
+            $task->sqq = $sdata->qq;
             $task->sname = $sdata->name;
             $task->isok = 1;
           }

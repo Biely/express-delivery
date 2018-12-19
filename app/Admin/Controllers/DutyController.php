@@ -293,7 +293,7 @@ class DutyController extends Controller
               $disk = config('admin.upload.disk');
               if (config("filesystems.disks.{$disk}")) {
                   $src = Storage::disk($disk)->url($f);
-                  $html .= "<img src='$src' style='max-width:200px;max-height:200px' class='img' />";
+                  $html .= "<a href='$src' target='_blank'><img src='$src' style='max-width:200px;max-height:200px' class='img' /></a>";
               }
             }
           }

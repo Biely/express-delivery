@@ -6,6 +6,7 @@ use App\Events\UploadDatas;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Encore\Admin\Facades\Admin;
+use App\Models\TaskOrder;
 use DB;
 use Log;
 
@@ -16,9 +17,12 @@ class CreateTasks
      *
      * @return void
      */
+    protected $taskorders;
+
     public function __construct()
     {
         //
+        $this->taskorders = new TaskOrder;
     }
 
     /**
@@ -30,6 +34,7 @@ class CreateTasks
     public function handle(UploadDatas $event)
     {
         //
+        $alllist = $this->taskorders->get();
         $head = $event->head;
         $row=[];
         foreach ($event->data as $key => $d) {
@@ -45,15 +50,17 @@ class CreateTasks
                         $temp[$head[$k]] = $qdata['id'];
                         $temp['deadline'] = getDeadline($qdata['seconds']);
                         $temp['user_uuid'] = Admin::user()->uuid;
+                        
                         $temp['created_at'] = $now;
                         $temp['updated_at'] = $now;
                         break;
                     // case " ":
                     //     $temp[$head[$k]] = " ";
                     break;
-                    // case '快递单号':
-                    //     $temp['eid'] = time();
-                    //     break;
+                case '快递单号':
+                    $temp['eid'] = $v;
+                    if($this->taskorders->where('eid',$v))
+                    break;
                     default:
                         $temp[$head[$k]] = $v;
                         break;
