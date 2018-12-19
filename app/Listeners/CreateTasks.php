@@ -59,10 +59,10 @@ class CreateTasks
                 case '快递单号':
                     $temp['eid'] = $v;
                     $result = $this->taskorders->where('eid',$v)->first();
-                    Log::info('单号：'.$v.$result);
-                    if(isset($result->eid)){
+                    //Log::info('单号：'.$v.$result);
+                    if(!empty($result)){
                         $adminuser = $result->adminuser;
-                        Log::info('客服信息：'.$adminuser);
+                        //Log::info('客服信息：'.$adminuser);
                         $temp['sid'] = $adminuser->uuid;
                         $temp['sname'] = $adminuser->name;
                         $temp['sqq'] = $adminuser->qq;
