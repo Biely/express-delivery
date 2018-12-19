@@ -62,7 +62,7 @@ class CreateTasks
                     Log::info($result);
                     if(isset($result->eid)){
                         $adminuser = $result->adminuser;
-                        //Log::info($adminuser);
+                        Log::info($adminuser);
                         $temp['sid'] = $adminuser->uuid;
                         $temp['sname'] = $adminuser->name;
                         $temp['sqq'] = $adminuser->qq;
