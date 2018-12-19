@@ -105,6 +105,7 @@ class TaskOrderController extends Controller
         $grid->id('ID');
         $grid->eid('快递单号');
         $grid->sname('客服名称');
+        $grid->store('快递网点');
         $grid->etype('快递公司');
 
         $grid->created_at('分配时间');
@@ -129,6 +130,7 @@ class TaskOrderController extends Controller
         $show->id('ID');
         $show->eid('快递单号');
         $show->sname('客服名称');
+        $show->store('快递网点');
         $show->etype('快递公司');
         $show->created_at('Created at');
         $show->updated_at('Updated at');
@@ -148,6 +150,7 @@ class TaskOrderController extends Controller
         $form->display('ID');
         $form->text('eid',"快递单号");
         $form->text('sname','客服名称');
+        $form->text('store','快递网点');
         $form->select('etype','快递公司')->options(edatas());
         $form->display('Created at');
         $form->display('Updated at');
