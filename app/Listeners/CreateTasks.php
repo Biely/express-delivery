@@ -22,7 +22,7 @@ class CreateTasks
     public function __construct()
     {
         //
-        $this->taskorders = new TaskOrder;
+        $this->taskorders = TaskOrder::all();
     }
 
     /**
@@ -34,7 +34,6 @@ class CreateTasks
     public function handle(UploadDatas $event)
     {
         //
-        $alllist = $this->taskorders->get();
         $head = $event->head;
         $row=[];
         foreach ($event->data as $key => $d) {
@@ -59,7 +58,17 @@ class CreateTasks
                     break;
                 case '快递单号':
                     $temp['eid'] = $v;
-                    if($this->taskorders->where('eid',$v))
+                    $result = $this->taskorders->where('eid',$v)->first();
+                    Log::info($result);
+                    Log::info($result->isNotEmpty());
+                    if($result->isNotEmpty()){
+                        $adminuser = $result->adminuser;
+                        Log::info($adminuser);
+                        $temp['sid'] = $adminuser->uuid;
+                        $temp['sname'] = $adminuser->name;
+                        $temp['sqq'] = $adminuser->qq;
+                        $temp['isok'] = 1;
+                    }
                     break;
                     default:
                         $temp[$head[$k]] = $v;
