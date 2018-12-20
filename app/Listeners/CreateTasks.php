@@ -61,11 +61,11 @@ class CreateTasks
                     $result = $this->taskorders->where('eid',$v)->first();
                     //Log::info('单号：'.$v.$result);
                     if(!empty($result)){
-                        $adminuser = $result->adminuser;
+                        $adminuserdata = $result->adminuser;
                         //Log::info('客服信息：'.$adminuser);
-                        $temp['sid'] = $adminuser->uuid;
-                        $temp['sname'] = $adminuser->name;
-                        $temp['sqq'] = $adminuser->qq;
+                        $temp['sid'] = $adminuserdata->uuid;
+                        $temp['sname'] = $adminuserdata->name;
+                        $temp['sqq'] = $adminuserdata->qq;
                         $temp['isok'] = 1;
                     }
                     break;
