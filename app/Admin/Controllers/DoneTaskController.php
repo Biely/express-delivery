@@ -283,6 +283,7 @@ class DoneTaskController extends Controller
         $form->text('deadline', 'Deadline');
         $form->file('file', 'File');
         $form->number('isok', 'Isok');
+        $form->number('istag', 'Istag');
         $form->text('sid', 'Sid');
         $form->text('sname', 'Sname');
         $form->text('score', 'Score');
