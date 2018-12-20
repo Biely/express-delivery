@@ -93,7 +93,7 @@ class TaskOrderController extends Controller
     protected function grid()
     {
         $grid = new Grid(new TaskOrder);
-
+        $grid->model()->orderBy('id', 'desc');
         $grid->filter(function($filter){
             $filter->disableIdFilter();
             $filter->equal('eid','快递单号')->integer();
