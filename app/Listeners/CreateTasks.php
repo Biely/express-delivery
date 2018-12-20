@@ -7,6 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Encore\Admin\Facades\Admin;
 use App\Models\TaskOrder;
+use App\Models\Task;
 use DB;
 use Log;
 
@@ -18,12 +19,13 @@ class CreateTasks
      * @return void
      */
     protected $taskorders;
-    protected $adminuser;
+    protected $task;
 
     public function __construct()
     {
         //
         $this->taskorders = TaskOrder::all();
+        $this->task = Task::get('eid');
     }
 
     /**
@@ -59,6 +61,11 @@ class CreateTasks
                     break;
                 case '快递单号':
                     $temp['eid'] = $v;
+                    $ishave = $this->task->where('eid',$v)->first();
+                    if(!empty()){
+                        admin_error("导入失败", "该单号已存在,请删除该单号后重新导入.单号：".$v);
+                            return redirect()->back();
+                    }
                     $result = $this->taskorders->where('eid',$v)->first();
                     Log::info('单号：'.$v.$result);
                     //if(!empty($result)){

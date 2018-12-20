@@ -59,7 +59,7 @@ function getQid($name){
 function getDeadline($seconds){
   $nexttime = time(); //当前时间
   $endtime = strtotime("18:00:00",$nexttime); //今天下班时间
-  $starttime = strtotime("8:00:00",$nexttime); //今天上班时间
+  $starttime = strtotime("8:10:00",$nexttime); //今天上班时间
 
   if($nexttime<$endtime&&$nexttime>=$starttime){   //上班时间
     $a = $endtime-$nexttime;  //剩余时间

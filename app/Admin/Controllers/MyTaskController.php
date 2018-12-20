@@ -87,7 +87,7 @@ class MyTaskController extends Controller
     protected function grid()
     {
       $grid = new Grid(new Task);
-      $grid->model()->where('sid',Admin::user()->uuid)->where('isok','=','1')->where('deadline','>',time())->orderBy('id', 'desc');
+      $grid->model()->where('sid',Admin::user()->uuid)->where('isok','=','1')->orderBy('id', 'desc');
       $grid->filter(function($filter){
           $filter->disableIdFilter();
           $filter->equal('eid','快递单号')->integer();
