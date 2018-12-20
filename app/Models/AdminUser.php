@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Log;
+use App\Models\TaskOrder;
 
 class AdminUser extends Model
 {
@@ -19,7 +20,7 @@ class AdminUser extends Model
     
     public function taskorder()
     {
-        return $this->belongsTo(TaskOrder::class);
+        return $this->belongsTo(TaskOrder::class,'sname','name');
     }
 
     public function comments()

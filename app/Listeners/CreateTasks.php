@@ -62,7 +62,7 @@ class CreateTasks
                     //Log::info('单号：'.$v.$result);
                     if(!empty($result)){
                         $adminuserdata = $result->adminuser;
-                        //Log::info('客服信息：'.$adminuser);
+                        Log::info('客服信息：'.$adminuserdata);
                         $temp['sid'] = $adminuserdata->uuid;
                         $temp['sname'] = $adminuserdata->name;
                         $temp['sqq'] = $adminuserdata->qq;
