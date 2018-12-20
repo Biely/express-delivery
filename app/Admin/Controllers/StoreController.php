@@ -103,6 +103,7 @@ class StoreController extends Controller
             $filter->equal('store','快递网点');
             $filter->equal('etype','快递类型')->select(edatas());
             $filter->equal('qtype','问题类型')->select(qdataArry());
+            $filter->equal('istag','标记状态')->select(['已标记'=> '1','未标记'=>'0']);
             $filter->between('created_at', '投诉时间')->datetime();
             $filter->where(function ($query) {
               switch ($this->input) {
@@ -212,6 +213,11 @@ class StoreController extends Controller
           }
           return $w;
         });
+        $states = [
+          'on'  => ['value' => "1", 'text' => '是', 'color' => 'primary'],
+          'off' => ['value' => "0", 'text' => '否', 'color' => 'default'],
+        ];
+        $grid->istag('标记跟踪')->switch($states);
         $grid->actions(function ($actions) {
           //Log::info($actions->row);
           $actions->disableEdit();
@@ -373,6 +379,7 @@ class StoreController extends Controller
       $form->multipleFile('file','完结凭证')->removable()->uniqueName()->rules('required');
         //$form->file('file','完结凭证');
       $form->textarea('bz', '备注');
+      $form->select('istag','是否标记')->options([0 => '否', 1 => '是']);
       $form->saving(function (Form $form) {
         if($form->deadline<time()){
           $form->isok=2;

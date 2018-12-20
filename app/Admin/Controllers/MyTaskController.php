@@ -259,6 +259,7 @@ class MyTaskController extends Controller
         $form->multipleFile('file','完结凭证')->removable()->uniqueName()->rules('required');
         //$form->file('file','完结凭证');
         $form->textarea('bz', '备注');
+        $form->select('istag','是否标记')->options([0 => '否', 1 => '是']);
         $form->saving(function (Form $form) {
           if($form->deadline<time()){
             $form->isok=2;

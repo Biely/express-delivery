@@ -94,6 +94,7 @@ class DoneTaskController extends Controller
            $filter->equal('store','快递网点');
            $filter->equal('etype','快递类型')->select(edatas());
            $filter->equal('qtype','问题类型')->select(qdataArry());
+           $filter->equal('istag','标记状态')->select(['已标记'=> '1','未标记'=>'0']);
            $filter->between('created_at', '投诉时间')->datetime();
            $filter->between('updated_at', '完成时间')->datetime();
        });
@@ -134,6 +135,11 @@ class DoneTaskController extends Controller
          }
          return $w;
        });
+       $states = [
+        'on'  => ['value' => "1", 'text' => '是', 'color' => 'primary'],
+        'off' => ['value' => "0", 'text' => '否', 'color' => 'default'],
+      ];
+      $grid->istag('标记跟踪')->switch($states);
        $grid->updated_at('完结时间');
        $grid->actions(function ($actions) {
           $actions->disableDelete();
