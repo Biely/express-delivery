@@ -73,7 +73,6 @@ class CreateTasks
                             admin_error("导入失败", "该客服信息不存在，请检查客服名称是否有误：".$result->sname."单号：".$v);
                             return redirect()->back();
                         }
-                    }
                     break;
                     default:
                         $temp[$head[$k]] = $v;
