@@ -25,7 +25,7 @@ class CreateTasks
     {
         //
         $this->taskorders = TaskOrder::all();
-        $this->task = Task::get('eid');
+        $this->task = Task::get(['eid']);
     }
 
     /**
@@ -61,12 +61,12 @@ class CreateTasks
                     break;
                 case '快递单号':
                     $temp['eid'] = $v;
-                    $ishave = $this->task->where('eid',$v)->first();
+                    //$ishave = $this->task->where('eid',$v)->first();
                     // if(!empty($ishave)){
                     //     admin_error("导入失败", "该单号已存在,请删除该单号后重新导入.单号：".$v);
                     //         return redirect()->back();
                     // }
-                    Log::info($ishave);
+                    //Log::info($ishave);
                     $result = $this->taskorders->where('eid',$v)->first();
                    // Log::info('单号：'.$v.$result);
                     //if(!empty($result)){
