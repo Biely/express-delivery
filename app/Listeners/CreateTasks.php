@@ -7,6 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Encore\Admin\Facades\Admin;
 use App\Models\TaskOrder;
+use App\Models\Adminuser;
 use DB;
 use Log;
 
@@ -18,11 +19,13 @@ class CreateTasks
      * @return void
      */
     protected $taskorders;
+    //protected $adminuser;
 
     public function __construct()
     {
         //
         $this->taskorders = TaskOrder::all();
+        //$this->adminuser =
     }
 
     /**
