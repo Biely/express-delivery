@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Log;
 use App\Models\TaskOrder;
 
-class AdminUser extends Model
+class Adminuser extends Model
 {
     //
     use Notifiable {

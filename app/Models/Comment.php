@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\AdminUser;
+use App\Models\Adminuser;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
@@ -20,6 +20,6 @@ class Comment extends Model
 
   public function adminuser()
   {
-      return $this->belongsTo(AdminUser::class,'touser','uuid');
+      return $this->belongsTo(Adminuser::class,'touser','uuid');
   }
 }

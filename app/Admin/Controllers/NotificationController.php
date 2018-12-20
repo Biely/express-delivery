@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\AdminUser;
+use App\Models\Adminuser;
 use App\Models\Task;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -84,7 +84,7 @@ class NotificationController extends Controller
     public function table(){
         $headers = ['评论人', '工单号', '内容', '评论时间','状态','操作'];
         $rows = [];
-        $user=AdminUser::find(Admin::user()->id);
+        $user=Adminuser::find(Admin::user()->id);
         $notifications = $user->unreadNotifications()->paginate(20);
         if($notifications->count()==0){
           $notifications = $user->notifications()->paginate(20);
@@ -118,7 +118,7 @@ class NotificationController extends Controller
 
     protected function grid()
     {
-        $grid = new Grid(new AdminUser);
+        $grid = new Grid(new Adminuser);
         $grid->model()->where('id',Admin::user()->id);
         $grid->id('Id');
         $grid->unreadNotifications('我的消息')->display(function ($comments) {
@@ -150,7 +150,7 @@ class NotificationController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(AdminUser::findOrFail($id));
+        $show = new Show(Adminuser::findOrFail($id));
 
         $show->id('Id');
         $show->uuid('Uuid');
@@ -176,7 +176,7 @@ class NotificationController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new AdminUser);
+        $form = new Form(new Adminuser);
 
         $form->text('uuid', 'Uuid');
         $form->text('username', 'Username');

@@ -3,7 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Store;
-use App\Models\AdminUser;
+use App\Models\Adminuser;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -161,7 +161,7 @@ class WandianController extends Controller
     public function kill(Request $request){
         $store = Store::find($request->input('id'));
         $store->status = $request->input('status');
-        $admin = AdminUser::where('name',$store->name)->first();
+        $admin = Adminuser::where('name',$store->name)->first();
         if(!empty($admin)){
             $admin->password = bcrypt('mifengjf');
             $admin->save();

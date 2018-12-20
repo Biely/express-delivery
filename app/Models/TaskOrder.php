@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\AdminUser;
+use App\Models\Adminuser;
 
 class TaskOrder extends Model
 {
     protected $table = 'task_orders';
 
     public function adminuser(){
-        return $this->hasOne(AdminUser::class,'name','sname');
+        return $this->hasOne(Adminuser::class,'name','sname');
     }
 }

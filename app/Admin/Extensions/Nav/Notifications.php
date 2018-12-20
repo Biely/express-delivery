@@ -2,7 +2,7 @@
 
 namespace App\Admin\Extensions\Nav;
 use Encore\Admin\Facades\Admin;
-use App\Models\AdminUser;
+use App\Models\Adminuser;
 
 class notifications
 {
@@ -13,7 +13,7 @@ class notifications
     public function __construct()
     {
         if(isset(Admin::user()->id)){
-            $this->user = AdminUser::find(Admin::user()->id);
+            $this->user = Adminuser::find(Admin::user()->id);
             $this->notifications = $this->user->unreadNotifications()->count();
             $this->url = route('notifi.index');
         }else{
