@@ -103,7 +103,7 @@ class StoreController extends Controller
             $filter->equal('store','快递网点');
             $filter->equal('etype','快递类型')->select(edatas());
             $filter->equal('qtype','问题类型')->select(qdataArry());
-            $filter->equal('istag','标记状态')->select(['已标记'=> '1','未标记'=>'0']);
+            $filter->equal('istag','标记状态')->select(['1'=> '已标记','0'=>'未标记']);
             $filter->between('created_at', '投诉时间')->datetime();
             $filter->where(function ($query) {
               switch ($this->input) {
