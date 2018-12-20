@@ -7,7 +7,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Encore\Admin\Facades\Admin;
 use App\Models\TaskOrder;
-use App\Models\Adminuser;
 use DB;
 use Log;
 
@@ -25,7 +24,6 @@ class CreateTasks
     {
         //
         $this->taskorders = TaskOrder::all();
-        $this->adminuser = Adminuser::all();
     }
 
     /**
@@ -63,14 +61,17 @@ class CreateTasks
                     $temp['eid'] = $v;
                     $result = $this->taskorders->where('eid',$v)->first();
                     Log::info('单号：'.$v.$result);
-                    if(!empty($result)){
-                        $audata = $this->adminuser->where('name',$result->sname)->first();
-                        if(!empty($audata)){
-                            Log::info('客服信息：'.$audata);
-                            $temp['sid'] = $audata->uuid;
-                            $temp['sname'] = $audata->name;
-                            $temp['sqq'] = $audata->qq;
+                    //if(!empty($result)){
+                        $adminuserdata = $result->adminuser;
+                        if(!empty($adminuserdata)){
+                            //Log::info('客服信息：'.$adminuserdata);
+                            $temp['sid'] = $adminuserdata->uuid;
+                            $temp['sname'] = $adminuserdata->name;
+                            $temp['sqq'] = $adminuserdata->qq;
                             $temp['isok'] = 1;
+                        }else{
+                            admin_error("导入失败", "该客服信息不存在，请检查客服名称是否有误：".$result->sname."单号：".$v);
+                            return redirect()->back();
                         }
                     }
                     break;
