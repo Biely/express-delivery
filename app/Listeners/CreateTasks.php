@@ -19,13 +19,13 @@ class CreateTasks
      * @return void
      */
     protected $taskorders;
-    //protected $adminuser;
+    protected $adminuser;
 
     public function __construct()
     {
         //
         $this->taskorders = TaskOrder::all();
-        //$this->adminuser =
+        $this->adminuser = Adminuser::all();
     }
 
     /**
@@ -64,12 +64,14 @@ class CreateTasks
                     $result = $this->taskorders->where('eid',$v)->first();
                     Log::info('单号：'.$v.$result);
                     if(!empty($result)){
-                        $adminuserdata = $result->adminuser;
-                        Log::info('客服信息：'.$adminuserdata);
-                        $temp['sid'] = $adminuserdata->uuid;
-                        $temp['sname'] = $adminuserdata->name;
-                        $temp['sqq'] = $adminuserdata->qq;
-                        $temp['isok'] = 1;
+                        $audata = $this->adminuser->where('name',$result->sname)->first();
+                        if(!empty($audata)){
+                            Log::info('客服信息：'.$audata);
+                            $temp['sid'] = $audata->uuid;
+                            $temp['sname'] = $audata->name;
+                            $temp['sqq'] = $audata->qq;
+                            $temp['isok'] = 1;
+                        }
                     }
                     break;
                     default:
