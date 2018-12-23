@@ -69,7 +69,7 @@ class CreateTasks
                     //Log::info($ishave);
                     $result = $this->taskorders->where('eid',$v)->first();
                    // Log::info('单号：'.$v.$result);
-                    //if(!empty($result)){
+                    if(!empty($result)){
                         $adminuserdata = $result->adminuser;
                         if(!empty($adminuserdata)){
                             //Log::info('客服信息：'.$adminuserdata);
@@ -81,6 +81,7 @@ class CreateTasks
                             admin_error("导入失败", "该客服信息不存在，请检查客服名称是否有误：".$result->sname."单号：".$v);
                             return redirect()->back();
                         }
+                    }
                     break;
                     default:
                         $temp[$head[$k]] = $v;
