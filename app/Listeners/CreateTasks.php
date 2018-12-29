@@ -49,34 +49,34 @@ class CreateTasks
                 //Log::info($k);
                 switch ($k) {
                     case '问题类型':
-                        Log::info($k);
-                        $qdata = getQid($v);
-                        Log::info($qdata);
-                        $now = date("Y-m-d H:i:s",time());
-                        $temp[$head[$k]] = $qdata['id'];
-                        $temp['deadline'] = getDeadline($qdata['seconds']);
-                        $temp['user_uuid'] = Admin::user()->uuid;
-                        
-                        $temp['created_at'] = $now;
-                        $temp['updated_at'] = $now;
+                    if($v==null){
                         break;
-                    // case " ":
-                    //     $temp[$head[$k]] = " ";
-                    break;
-                case '快递单号':
+                    }
+                    Log::info($k);
+                    $qdata = getQid($v);
+                    Log::info($qdata);
+                    $now = date("Y-m-d H:i:s",time());
+                    $temp[$head[$k]] = $qdata['id'];
+                    $temp['deadline'] = getDeadline($qdata['seconds']);
+                    $temp['user_uuid'] = Admin::user()->uuid;
+                    
+                    $temp['created_at'] = $now;
+                    $temp['updated_at'] = $now;
+                    break;  
+                    case '快递单号':
+                    if($v==null){
+                        break;
+                    }
                     $temp['eid'] = $v;
                     $ishave = $this->task->where('eid',$v)->first();
                     if(!empty($ishave)){
                         admin_error("导入失败", "该单号已存在,请删除该单号后重新导入.单号：".$v);
                             return redirect()->back();
                     }
-                    //Log::info($ishave);
                     $result = $this->taskorders->where('eid',$v)->first();
-                   // Log::info('单号：'.$v.$result);
                     if(!empty($result)){
                         $adminuserdata = $result->adminuser;
                         if(!empty($adminuserdata)){
-                            //Log::info('客服信息：'.$adminuserdata);
                             $temp['sid'] = $adminuserdata->uuid;
                             $temp['sname'] = $adminuserdata->name;
                             $temp['sqq'] = $adminuserdata->qq;
@@ -88,11 +88,16 @@ class CreateTasks
                     }
                     break;
                     default:
-                        $temp[$head[$k]] = $v;
+                    if($v==null){
                         break;
+                    }
+                    $temp[$head[$k]] = $v;
+                    break;
                 }
             }
-            $row[]=$temp;
+            if(!empty($temp)){
+                $row[]=$temp;
+            }
         }
         
         //Log::info($row);
