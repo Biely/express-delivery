@@ -47,7 +47,9 @@ class CreateTasks
                 //Log::info($k);
                 switch ($k) {
                     case '问题类型':
+                        Log::info($k);
                         $qdata = getQid($v);
+                        Log::info($qdata);
                         $now = date("Y-m-d H:i:s",time());
                         $temp[$head[$k]] = $qdata['id'];
                         $temp['deadline'] = getDeadline($qdata['seconds']);
