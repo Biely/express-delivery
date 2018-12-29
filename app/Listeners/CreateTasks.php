@@ -42,6 +42,7 @@ class CreateTasks
         foreach ($event->data as $key => $d) {
             # code...
             $temp=[];
+            Log::info($d);
             foreach ($d as $k => $v) {
                 # code...
                 //Log::info($k);
