@@ -69,14 +69,14 @@ class CreateTasks
                     }
                     $temp['eid'] = $v;
                     $ishave = $this->task->where('eid',$v)->first();
-                    if(!isset($ishave->eid)){
+                    if(isset($ishave->eid)){
                         admin_error("导入失败", "该单号已存在,请删除该单号后重新导入.单号：".$v);
                             return redirect()->back();
                     }
                     $result = $this->taskorders->where('eid',$v)->first();
-                    if(!isset($result->eid)){
+                    if(isset($result->eid)){
                         $adminuserdata = $result->adminuser;
-                        if(!isset($adminuserdata->uuid)){
+                        if(isset($adminuserdata->uuid)){
                             $temp['sid'] = $adminuserdata->uuid;
                             $temp['sname'] = $adminuserdata->name;
                             $temp['sqq'] = $adminuserdata->qq;
