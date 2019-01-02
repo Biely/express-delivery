@@ -13,6 +13,10 @@
         <link rel="stylesheet"  href="{{  asset('homes/css/main.css') }}" />
         <!-- Styles -->
         <style>
+            body{
+                margin-top: 60px;
+                position: relative;
+            }
             .full-height {
                 height:60px;
             }
@@ -24,7 +28,10 @@
             }
 
             .position-ref {
-                position: relative;
+                position: fixed;
+                width: 100%;
+                background-color: #fff;
+                z-index: 999;
             }
             .top-left {
                 position: absolute;
