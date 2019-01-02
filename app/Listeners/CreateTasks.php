@@ -39,11 +39,11 @@ class CreateTasks
         //
         $head = $event->head;
         $row=[];
-        Log::info($event->data);
+        //Log::info($event->data);
         foreach ($event->data as $key => $d) {
             # code...
             $temp=[];
-            Log::info($d);
+            //Log::info($d);
             foreach ($d as $k => $v) {
                 # code...
                 //Log::info($k);
@@ -52,9 +52,9 @@ class CreateTasks
                     if($v==null){
                         break;
                     }
-                    Log::info($k);
+                    //Log::info($k);
                     $qdata = getQid($v);
-                    Log::info($qdata);
+                    //Log::info($qdata);
                     $now = date("Y-m-d H:i:s",time());
                     $temp[$head[$k]] = $qdata['id'];
                     $temp['deadline'] = getDeadline($qdata['seconds']);
@@ -69,14 +69,14 @@ class CreateTasks
                     }
                     $temp['eid'] = $v;
                     $ishave = $this->task->where('eid',$v)->first();
-                    if(!empty($ishave)){
+                    if(!isset($ishave->eid)){
                         admin_error("导入失败", "该单号已存在,请删除该单号后重新导入.单号：".$v);
                             return redirect()->back();
                     }
                     $result = $this->taskorders->where('eid',$v)->first();
-                    if(!empty($result)){
+                    if(!isset($result->eid)){
                         $adminuserdata = $result->adminuser;
-                        if(!empty($adminuserdata)){
+                        if(!isset($adminuserdata->uuid)){
                             $temp['sid'] = $adminuserdata->uuid;
                             $temp['sname'] = $adminuserdata->name;
                             $temp['sqq'] = $adminuserdata->qq;
@@ -85,6 +85,11 @@ class CreateTasks
                             admin_error("导入失败", "该客服信息不存在，请检查客服名称是否有误：".$result->sname."单号：".$v);
                             return redirect()->back();
                         }
+                    }else{
+                        $temp['sid'] = null;
+                        $temp['sname'] = null;
+                        $temp['sqq'] = null;
+                        $temp['isok'] = 0;
                     }
                     break;
                     default:
