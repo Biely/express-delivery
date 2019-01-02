@@ -14,7 +14,6 @@
         <!-- Styles -->
         <style>
             body{
-                margin-top: 60px;
                 position: relative;
             }
             .full-height {
@@ -73,6 +72,7 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+            
         </style>
     </head>
     <body>
@@ -94,7 +94,7 @@
                 </div>
             @endif
         </div>
-        <div class="box_skitter box_skitter_large">
+        <div class="box_skitter box_skitter_large" style="margin-top: 60px;">
             <ul>
                 <li>
                     <a href="#1"><img src="./homes/images/1.jpg" /></a>
