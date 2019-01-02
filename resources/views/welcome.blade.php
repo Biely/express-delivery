@@ -94,7 +94,7 @@
                 </div>
             @endif
         </div>
-        <div class="box_skitter box_skitter_large" style="margin-top: 60px;">
+        <div class="box_skitter box_skitter_large" style="padding-top: 60px;">
             <ul>
                 <li>
                     <a href="#1"><img src="./homes/images/1.jpg" /></a>
