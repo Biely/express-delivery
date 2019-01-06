@@ -53,7 +53,7 @@ class SubTaskController extends Controller
     {
         //
         $this->validate($request, [
-            'eid' => 'required|max:50',
+            'eid' => 'required|max:50|unique',
             'qtype' => 'required',
             'content' => 'required|max:255'
         ]);

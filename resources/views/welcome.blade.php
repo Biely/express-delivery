@@ -5,7 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>蜜蜂金服工单系统</title>
-
+        
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a23c5c2d0fc1509c0f2b422da16c249e";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
         <!-- Fonts -->
         <!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css"> -->
         <link rel="stylesheet"  href="{{  asset('homes/css/base.css') }}" />
